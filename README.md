@@ -72,6 +72,7 @@ you can actually use and show off.
 
 ## Project Structure
 
+```text
 spreadsheet-cleaner/
 ├── basic/
 │   ├── spreadsheet_cleaner.py
@@ -81,6 +82,7 @@ spreadsheet-cleaner/
 ├── sample_data/
 │   └── example_messy_dates.xlsx
 └── README.md
+```
 
 ---
 
@@ -88,14 +90,16 @@ spreadsheet-cleaner/
 
 If you find this project helpful and would like to support its continued development, donations are always appreciated but never expected. They provide a nice **reset** and help keep the garden growing.
 
-[![Support](https://shields.io)](https://buymeacoffee.com)
+<a href="https://buymeacoffee.com">
+  <img src="https://buymeacoffee.com" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" >
+</a>
 
 **Important Disclaimer:**
 *   **Voluntary:** Donations are entirely voluntary and are considered personal "tips" to support the developer's time and effort.
 *   **No Strings Attached:** A donation does not guarantee the implementation of specific features, bug fixes, or personalized support.
 *   **Non-Refundable:** All donations are final and non-refundable.
 *   **As-Is:** This software is provided "as-is" without warranty of any kind.
-
+*   
 ---
 
 ## Contributing
