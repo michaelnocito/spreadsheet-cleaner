@@ -1,4 +1,3 @@
-
 # 🧼 Spreadsheet Cleaner
 ### A Python Learning Project by Michael Nocito
 
@@ -17,6 +16,7 @@ them into enterprise systems. No toy examples. Real, useful code.
 
 The project is split into 3 layers. Each one builds on the last.
 You don't just read about Python — you build something with it.
+
 
 | Layer | What You Build | Concepts Covered |
 |---|---|---|
@@ -44,7 +44,7 @@ tells you what you need to know before starting.
 
 **1. Clone the repo**
 ```bash
-git clone https://github.com/michaelnocito/spreadsheet-cleaner.git
+git clone https://github.com
 cd spreadsheet-cleaner
 ```
 
@@ -72,7 +72,6 @@ you can actually use and show off.
 
 ## Project Structure
 
-```
 spreadsheet-cleaner/
 ├── basic/
 │   ├── spreadsheet_cleaner.py
@@ -82,22 +81,20 @@ spreadsheet-cleaner/
 ├── sample_data/
 │   └── example_messy_dates.xlsx
 └── README.md
-```
 
 ---
 
-
 ## Support the Project 💖
 
-If you find this project helpful and would like to support its continued development, donations are always appreciated but never expected.
+If you find this project helpful and would like to support its continued development, donations are always appreciated but never expected. They provide a nice **reset** and help keep the garden growing.
+
+[![Support](https://shields.io)](https://buymeacoffee.com)
 
 **Important Disclaimer:**
 *   **Voluntary:** Donations are entirely voluntary and are considered personal "tips" to support the developer's time and effort.
 *   **No Strings Attached:** A donation does not guarantee the implementation of specific features, bug fixes, or personalized support.
 *   **Non-Refundable:** All donations are final and non-refundable.
 *   **As-Is:** This software is provided "as-is" without warranty of any kind.
-
-[Buy Me a Coffee](https://buymeacoffee.com) | [GitHub Sponsors](https://github.com)
 
 ---
 
@@ -109,6 +106,5 @@ welcome.
 
 ---
 
-Built with 🐍 Python | Maintained by 
-[Michael Nocito](https://github.com/michaelnocito)
+Built with 🐍 Python | Maintained by [Michael Nocito](https://github.com)
 
