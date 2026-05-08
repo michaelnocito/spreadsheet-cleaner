@@ -90,7 +90,8 @@ spreadsheet-cleaner/
 
 If you find this project helpful and would like to support its continued development, donations are always appreciated but never expected. They provide a nice **reset** and help keep the garden growing.
 
-[![Buy Me A Coffee](https://shields.io)](https://buymeacoffee.com)
+[![Buy Me A Coffee](https://buymeacoffee.com)](https://buymeacoffee.com)
+
 
 **Important Disclaimer:**
 *   **Voluntary:** Donations are entirely voluntary and are considered personal "tips" to support the developer's time and effort.
