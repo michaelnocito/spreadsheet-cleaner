@@ -90,9 +90,7 @@ spreadsheet-cleaner/
 
 If you find this project helpful and would like to support its continued development, donations are always appreciated but never expected. They provide a nice **reset** and help keep the garden growing.
 
-<a href="https://buymeacoffee.com">
-  <img src="https://buymeacoffee.com me a coffee&emoji=&slug=michaelnocito&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy Me A Coffee" height="40">
-</a>
+[![Buy Me A Coffee](https://buymeacoffee.com)](https://buymeacoffee.com)
 
 ---
 
