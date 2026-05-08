@@ -86,10 +86,18 @@ spreadsheet-cleaner/
 
 ---
 
-## Support This Project
 
-Enjoying the project? A donation helps keep it growing.
-GitHub Sponsors link coming soon!
+## Support the Project 💖
+
+If you find this project helpful and would like to support its continued development, donations are always appreciated but never expected.
+
+**Important Disclaimer:**
+*   **Voluntary:** Donations are entirely voluntary and are considered personal "tips" to support the developer's time and effort.
+*   **No Strings Attached:** A donation does not guarantee the implementation of specific features, bug fixes, or personalized support.
+*   **Non-Refundable:** All donations are final and non-refundable.
+*   **As-Is:** This software is provided "as-is" without warranty of any kind.
+
+[Buy Me a Coffee](https://buymeacoffee.com) | [GitHub Sponsors](https://github.com)
 
 ---
 
