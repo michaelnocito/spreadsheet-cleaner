@@ -11,6 +11,27 @@ touching a single cell of client data.
 
 ---
 
+## How to Use This Project
+
+Here's the thing about this project — the code teaches you.
+
+Every file has comments built right into it. Comments are the lines
+that start with a `#` symbol. Python ignores them when it runs the
+code, but they're there for YOU. They explain what each line does,
+why it matters, and how it connects to real world work.
+
+Your job at the Basic layer:
+1. Open `spreadsheet_cleaner.py` in VS Code
+2. Read every comment top to bottom before you run anything
+3. Then run the code and see it in action
+4. Come back and read the comments again — they'll make more sense now
+
+Don't skip the comments. That's where the learning lives.
+If a comment doesn't make sense, that's okay — read it, run the code,
+and read it again. It'll click.
+
+---
+
 ## Before You Start
 
 ### Requirements
