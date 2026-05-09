@@ -95,7 +95,7 @@ spreadsheet-cleaner/
 If you find this project helpful and would like to support its continued development, donations are always appreciated but never expected.
 
 <p>
-  <a href="https://buymeacoffee.com/YOURNAME" target="_blank">
+  <a href="https://buymeacoffee.com/michaelnocito" target="_blank">
     <img 
       src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
       alt="Buy Me A Coffee" 
