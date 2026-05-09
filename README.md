@@ -1,6 +1,8 @@
 # 🧼 Spreadsheet Cleaner
 ### A Python Learning Project by Michael Nocito
 
+[![Support](https://shields.io)](https://buymeacoffee.com)
+
 ---
 
 Ever received a messy spreadsheet and had no idea where to start?
@@ -16,6 +18,7 @@ them into enterprise systems. No toy examples. Real, useful code.
 
 The project is split into 3 layers. Each one builds on the last.
 You don't just read about Python — you build something with it.
+
 
 
 | Layer | What You Build | Concepts Covered |
@@ -90,7 +93,7 @@ spreadsheet-cleaner/
 
 If you find this project helpful and would like to support its continued development, donations are always appreciated but never expected. They provide a nice **reset** and help keep the garden growing.
 
-[![Buy Me A Coffee](https://buymeacoffee.com)](https://buymeacoffee.com)
+[![Buy Me A Coffee](https://shields.io)](https://buymeacoffee.com)
 
 ---
 
@@ -99,7 +102,7 @@ If you find this project helpful and would like to support its continued develop
 *   **No Strings Attached:** A donation does not guarantee the implementation of specific features, bug fixes, or personalized support.
 *   **Non-Refundable:** All donations are final and non-refundable.
 *   **As-Is:** This software is provided "as-is" without warranty of any kind.
-*   
+
 ---
 
 ## Contributing
@@ -111,4 +114,3 @@ welcome.
 ---
 
 Built with 🐍 Python | Maintained by [Michael Nocito](https://github.com)
-
