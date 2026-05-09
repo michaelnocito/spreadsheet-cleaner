@@ -1,7 +1,7 @@
 # 🧼 Spreadsheet Cleaner
 ### A Python Learning Project by Michael Nocito
 
-[![Support](https://shields.io)](https://buymeacoffee.com)
+
 
 ---
 
@@ -89,15 +89,20 @@ spreadsheet-cleaner/
 
 ---
 
+
 ## Support the Project 💖
 
-If you find this project helpful and would like to support its continued development, donations are always appreciated but never expected. They provide a nice **reset** and help keep the garden growing.
+If you find this project helpful and would like to support its continued development, donations are always appreciated but never expected.
 
-<a href="https://buymeacoffee.com">
-  <img src="https://buymeacoffee.com" 
-       alt="Buy Me A Coffee" 
-       style="height: 60px !important;width: 217px !important;">
-</a>
+<p>
+  <a href="https://buymeacoffee.com/YOURNAME" target="_blank">
+    <img 
+      src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
+      alt="Buy Me A Coffee" 
+      height="60"
+    >
+  </a>
+</p>
 
 
 ---
