@@ -93,8 +93,10 @@ spreadsheet-cleaner/
 
 If you find this project helpful and would like to support its continued development, donations are always appreciated but never expected. They provide a nice **reset** and help keep the garden growing.
 
-<a href="https://buymeacoffee.com" target="_blank">
-  <img src="https://buymeacoffee.com" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" >
+<a href="https://buymeacoffee.com">
+  <img src="https://buymeacoffee.com" 
+       alt="Buy Me A Coffee" 
+       style="height: 60px !important;width: 217px !important;">
 </a>
 
 
