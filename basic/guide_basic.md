@@ -9,6 +9,11 @@ quality issues — missing values, column names, and row counts.
 This is the foundation every data migration analyst needs before
 touching a single cell of client data.
 
+> **What Basic does:** Loads your spreadsheet and prints a report
+> in the terminal. That's it — no files are saved, nothing is changed.
+> Reading and reporting is the whole point at this layer.
+> Cleaning and saving happens in the Intermediate layer.
+
 ---
 
 ## How to Use This Project
@@ -35,12 +40,17 @@ and read it again. It'll click.
 ## Before You Start
 
 ### Requirements
-Make sure these are installed:
+Make sure your virtual environment is active (you'll see `(.venv)` in
+your terminal), then install the required libraries:
 ```bash
 pip install pandas openpyxl
 ```
 
+Not sure about virtual environments? See the **New to GitHub? Start Here**
+section in the main [README.md](../README.md).
+
 ### Folder Structure
+```text
 spreadsheet-cleaner/
 ├── basic/
 │   ├── spreadsheet_cleaner.py
@@ -48,6 +58,7 @@ spreadsheet-cleaner/
 ├── sample_data/
 │   └── example_messy_dates.xlsx
 └── README.md
+```
 
 ---
 
@@ -62,7 +73,23 @@ cd basic
 ```bash
 python spreadsheet_cleaner.py
 ```
-4. When prompted, enter the path to your spreadsheet:
+4. When prompted, enter the path to your spreadsheet.
+
+**Use the included sample file to try it right away.**
+Copy and paste this path exactly when the app asks:
+
+- **Windows:**
+```
+..\sample_data\example_messy_dates.xlsx
+```
+- **Mac / Linux:**
+```
+../sample_data/example_messy_dates.xlsx
+```
+
+> **Tip for Windows users:** If you copy a file path using
+> "Copy as path" from File Explorer, it will include quotes.
+> Paste it in and remove the quotes before hitting Enter.
 
 ---
 
