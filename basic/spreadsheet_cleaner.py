@@ -10,6 +10,49 @@
 # ============================================================
 
 # ============================================================
+# SAMPLE FILE
+# ============================================================
+# The project includes a ready-to-use test file:
+#   sample_data/example_messy_dates.xlsx
+#
+# It's a fake employee record spreadsheet — the kind of file
+# a company might send over before a system migration.
+# It has 10 rows and 5 columns:
+#
+#   employee_id  — a unique ID number for each person
+#   full_name    — employee name (2 missing)
+#   start_date   — hire date, in 6 different messy formats (1 missing)
+#   department   — which team they're on (3 missing)
+#   email        — work email address (2 missing)
+#
+# When you run this program on that file, here's what you
+# should see in the terminal:
+#
+#   Loading Excel file...
+#
+#   --- SPREADSHEET REPORT ---
+#   Rows: 10 | Columns: 5
+#
+#   Column Names:
+#     - employee_id
+#     - full_name
+#     - start_date
+#     - department
+#     - email
+#
+#   Missing Values Per Column:
+#     employee_id: 0 missing  ✓ OK
+#     full_name: 2 missing  ⚠️  MISSING
+#     start_date: 1 missing  ⚠️  MISSING
+#     department: 3 missing  ⚠️  MISSING
+#     email: 2 missing  ⚠️  MISSING
+#
+#   --- END OF REPORT ---
+#
+# If your output matches this, everything is working correctly.
+# ============================================================
+
+# ============================================================
 # IMPORTS
 # ============================================================
 # Think of imports like apps on your phone. Python comes with

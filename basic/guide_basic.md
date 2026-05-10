@@ -67,6 +67,28 @@ spreadsheet-cleaner/
 
 ---
 
+## About the Sample File
+
+The included test file — `example_messy_dates.xlsx` — is a fake employee
+record spreadsheet. Think of it as something a company might send over
+before moving their data into a new HR system.
+
+It has **10 rows and 5 columns**:
+
+| Column | What It Contains | Issues |
+|---|---|---|
+| `employee_id` | Unique ID for each person | None — all present |
+| `full_name` | Employee name | 2 missing |
+| `start_date` | Hire date | 1 missing + 6 different date formats |
+| `department` | Which team they're on | 3 missing |
+| `email` | Work email address | 2 missing |
+
+The messy dates are intentional — cleaning them is what the Intermediate
+layer is all about. At the Basic layer, the tool just spots them as missing
+or present. The chaos of formats is something to notice, not fix yet.
+
+---
+
 ## How to Run the App
 
 **1. Open your terminal**
@@ -99,6 +121,39 @@ python spreadsheet_cleaner.py
 
 > **Windows tip:** If you used "Copy as path" from File Explorer,
 > the path will have quotes around it. Remove the quotes before hitting Enter.
+
+---
+
+## Expected Output
+
+If everything is working correctly, you should see this in your terminal:
+
+```
+Loading Excel file...
+
+--- SPREADSHEET REPORT ---
+Rows: 10 | Columns: 5
+
+Column Names:
+  - employee_id
+  - full_name
+  - start_date
+  - department
+  - email
+
+Missing Values Per Column:
+  employee_id: 0 missing  ✓ OK
+  full_name: 2 missing  ⚠️  MISSING
+  start_date: 1 missing  ⚠️  MISSING
+  department: 3 missing  ⚠️  MISSING
+  email: 2 missing  ⚠️  MISSING
+
+--- END OF REPORT ---
+```
+
+If your output matches this exactly, you're in great shape.
+If something looks different, check that you're pointing at the right file
+and that your virtual environment is active.
 
 ---
 
@@ -140,18 +195,69 @@ The `if __name__ == "__main__"` block is where the program starts:
 
 ---
 
-## Try It Yourself
+## While You Wait for Intermediate
 
-Once the app runs successfully, push it further:
+Intermediate isn't available yet — but that doesn't mean you're stuck.
+Here are three ways to go deeper with what you've already built.
+Each one is a real skill, not busywork.
 
-1. Open `example_messy_dates.xlsx` in Excel, delete a few cell values,
-   save it, then run the app again — watch the ⚠️ warnings appear
-2. Try pointing it at a `.csv` file if you have one
-3. Type a fake file path on purpose — see how the app handles it
-4. Try a path with the wrong file type (like a `.pdf`) — what happens?
+---
 
-Each of these is a real testing technique. You're not just playing around —
-you're learning how to break things on purpose so you can build things that don't break.
+### Challenge 1 — Break It on Purpose
+
+The best way to understand how code works is to make it fail — deliberately.
+Try each of these and read what the program prints back:
+
+- Type a file path that doesn't exist — what message do you get?
+- Type a path to a `.pdf` or `.txt` file — what happens?
+- Run it on the sample file, then open the `.xlsx` in Excel, delete
+  a whole column of values, save it, and run the app again — do the
+  ⚠️ warnings change the way you expected?
+- Try adding a row in Excel where every cell is blank, then run the app
+
+For each one, read the comment in the code that's responsible for handling
+that situation. You're not just testing — you're connecting the code to
+real behavior. That's how developers think.
+
+---
+
+### Challenge 2 — Run It on a Real File
+
+Find or create your own spreadsheet and run the app on it.
+
+Ideas:
+- Export a Google Sheet as `.xlsx` or `.csv` (File → Download)
+- Create a small `.csv` in Excel or Google Sheets with a few columns
+  and intentionally leave some cells blank
+- If you have a school project or personal data in a spreadsheet,
+  use that — the app doesn't change anything, it only reads
+
+Once it runs, ask yourself:
+- Were any columns missing values you didn't expect?
+- Does the column count match what you thought the file had?
+- What would you want to fix first if this were a real client file?
+
+This is exactly what an analyst does on day one of a migration project.
+
+---
+
+### Challenge 3 — Read the Code Like a Book
+
+Open `spreadsheet_cleaner.py` and go through it line by line —
+not to run it, just to read it. For each comment block, try to answer:
+
+1. **What does this line do?** (The comment tells you — rephrase it in your own words)
+2. **Why does it matter?** (The comment gives a real-world connection — do you believe it?)
+3. **What would break if this line weren't here?** (Delete it mentally and think through it)
+
+Then try this: close the file, open a blank `.py` file in your editor,
+and write the `report()` function from memory. Don't copy — just try.
+It doesn't need to be perfect. When you get stuck, look at one line,
+continue, and keep going.
+
+This is called **active recall** — one of the most effective ways to
+learn anything. You'll remember far more from one attempt at writing
+it yourself than from reading it ten times.
 
 ---
 
