@@ -1,8 +1,6 @@
 # 🧼 Spreadsheet Cleaner
 ### A Python Learning Project by Michael Nocito
 
-
-
 ---
 
 Ever received a messy spreadsheet and had no idea where to start?
@@ -19,8 +17,6 @@ them into enterprise systems. No toy examples. Real, useful code.
 The project is split into 3 layers. Each one builds on the last.
 You don't just read about Python — you build something with it.
 
-
-
 | Layer | What You Build | Concepts Covered |
 |---|---|---|
 | 🟢 Basic | Load a spreadsheet, generate a quality report | imports, functions, if/else, pandas basics |
@@ -31,40 +27,49 @@ You don't just read about Python — you build something with it.
 
 ## Who This Is For
 
-- Python beginners who learn best by building real things
-- Anyone who works with spreadsheets and wants to automate the tedious parts
-- Students who want a portfolio project that actually does something
+- Beginners who learn best by actually building things — not just reading about them
+- Anyone who works with spreadsheets and wants to stop doing the tedious parts by hand
+- Students looking for a portfolio project that does something real and useful
 
 No prior Python experience needed for the Basic layer. Each layer
-tells you what you need to know before starting.
+tells you exactly what you need before you start.
 
 ---
 
 ## New to GitHub? Start Here
 
-GitHub is where this project lives. To use it, you need to download
-a copy to your own computer — this is called **cloning a repository**.
+GitHub is where this project lives online. To use it, you download
+a copy to your own computer — that's called **cloning a repository**.
+Think of it like syncing a Google Doc to your desktop, except for code.
 
-Here's everything you need before you run anything:
+Before you run anything, set up these four things:
 
 **Step 1 — Install Git**
-Git is the tool that lets your computer download files from GitHub.
-Download it at [git-scm.com/downloads](https://git-scm.com/downloads)
-and follow the installer. No special settings needed.
+Git is the tool that lets your computer talk to GitHub and download files.
+→ [git-scm.com/downloads](https://git-scm.com/downloads) — download and run the installer. Default settings are fine.
 
 **Step 2 — Install Python 3**
-Download it at [python.org/downloads](https://python.org/downloads).
-Choose the latest version. On Windows, check the box that says
-**"Add Python to PATH"** during the install — this is easy to miss
-and important to check.
+Python is the programming language this project runs on.
+→ [python.org/downloads](https://python.org/downloads) — pick the latest version.
+⚠️ On Windows: check the box that says **"Add Python to PATH"** during install.
+It's easy to miss and things won't work without it.
 
-**Step 3 — Open a terminal**
-This is the text window where you type commands.
-- **Windows:** Search for *PowerShell* in the Start menu
-- **Mac:** Search for *Terminal* in Spotlight
-- **VS Code:** Open the project folder, then press `` Ctrl + ` ``
+**Step 3 — Pick a Code Editor**
+A code editor is where you'll read and write Python files. Any of these free options work:
 
-Once Git, Python, and a terminal are ready, follow the steps below.
+- **[Thonny](https://thonny.org/)** *(best for total beginners)* — built specifically for learning Python. Dead simple, nothing to configure, has a terminal built in.
+- **[VS Code](https://code.visualstudio.com/)** — the most popular editor used by professionals. Free, powerful, works great with Python. Slightly more setup but worth it long-term.
+- **[PyCharm Community](https://www.jetbrains.com/pycharm/download/)** — free, Python-focused, lots of helpful features built in.
+- **IDLE** — already installed with Python. No download needed. Works fine for simple scripts.
+
+**Step 4 — Open a terminal**
+The terminal is the text window where you type commands to run your code.
+- **Thonny:** use the built-in Shell panel at the bottom of the screen
+- **VS Code:** press `Ctrl + \`` `
+- **Windows (no editor):** search *PowerShell* in the Start menu
+- **Mac:** search *Terminal* in Spotlight
+
+Once all four are ready, follow the steps below.
 
 ---
 
@@ -72,29 +77,34 @@ Once Git, Python, and a terminal are ready, follow the steps below.
 
 **1. Clone the repo**
 
-This downloads the project files to your computer:
+This downloads the project to your computer. Run these two commands:
 ```bash
 git clone https://github.com/michaelnocito/spreadsheet-cleaner.git
 cd spreadsheet-cleaner
 ```
+> `cd` means "change directory" — it moves you into the project folder you just downloaded.
 
 **2. Create a virtual environment**
 
-This keeps the project's dependencies separate from the rest of
-your computer — a best practice for any Python project:
+A virtual environment is like a clean workspace just for this project —
+it keeps the libraries you install here from mixing with the rest of your computer:
 ```bash
 python -m venv .venv
 ```
 
 Then activate it:
-- **Windows (PowerShell):** `.\\.venv\\Scripts\\Activate.ps1`
+- **Windows (PowerShell):** `.\.venv\Scripts\Activate.ps1`
 - **Mac / Linux:** `source .venv/bin/activate`
+
+You'll know it worked when you see `(.venv)` at the start of your terminal line.
 
 > **Platform note:** This project is developed and tested on Windows.
 > Mac and Linux instructions are provided as a best-effort guide but
 > have not been formally tested yet.
 
 **3. Install requirements**
+
+This installs the two libraries the project needs:
 ```bash
 pip install pandas openpyxl
 ```
@@ -106,32 +116,33 @@ Open `/basic/guide_basic.md` and follow the guide step by step.
 
 ## Real World Context
 
-This project is inspired by real work in data migration. Tools like
-this are used to prep client data before importing into enterprise
-platforms. When a spreadsheet has bad dates, missing IDs, or messy
-text — this app finds it and fixes it.
+This project is based on real work in data migration — the process of
+moving client data from one system into another. Before any import happens,
+someone has to check that the spreadsheet is clean: dates in the right format,
+no missing required fields, no duplicate IDs. That's exactly what this tool does.
 
 By the time you finish all 3 layers, you'll have built something
-you can actually use and show off.
+you can actually use, put on a resume, and show to anyone.
 
 ---
 
 ## Project Structure
 
+Here's how the project is organized. Each folder is its own layer:
+
 ```text
 spreadsheet-cleaner/
 ├── basic/
-│   ├── spreadsheet_cleaner.py
-│   └── guide_basic.md
-├── intermediate/         ← coming soon
-├── advanced/             ← coming soon
+│   ├── spreadsheet_cleaner.py   ← the working Python program
+│   └── guide_basic.md           ← step-by-step learning guide
+├── intermediate/                ← coming soon
+├── advanced/                    ← coming soon
 ├── sample_data/
-│   └── example_messy_dates.xlsx
-└── README.md
+│   └── example_messy_dates.xlsx ← test file to run the app on
+└── README.md                    ← you are here
 ```
 
 ---
-
 
 ## Support the Project 💖
 
@@ -147,7 +158,6 @@ If you find this project helpful and would like to support its continued develop
   </a>
 </p>
 
-
 ---
 
 **Important Disclaimer:**
@@ -161,8 +171,7 @@ If you find this project helpful and would like to support its continued develop
 ## Contributing
 
 Found a bug? Have an idea for a better explanation?
-Open an issue or submit a pull request — all experience levels
-welcome.
+Open an issue or submit a pull request — all experience levels welcome.
 
 ---
 

@@ -4,59 +4,64 @@
 ---
 
 ## What You're Building
-A command-line tool that loads a spreadsheet and reports data
-quality issues — missing values, column names, and row counts.
-This is the foundation every data migration analyst needs before
-touching a single cell of client data.
+
+A tool that opens a spreadsheet and prints a plain-English report:
+how many rows, what columns, and which cells are missing data.
+
+That might sound simple — and it is, intentionally. In the real world,
+this is called a **data audit**. It's the first thing an analyst does
+before touching a client's spreadsheet. You need to know what you're
+dealing with before you change anything.
 
 > **What Basic does:** Loads your spreadsheet and prints a report
-> in the terminal. That's it — no files are saved, nothing is changed.
-> Reading and reporting is the whole point at this layer.
-> Cleaning and saving happens in the Intermediate layer.
+> in the terminal. Nothing is saved, nothing is changed.
+> Cleaning and saving starts in the Intermediate layer.
 
 ---
 
-## How to Use This Project
+## How This Project Teaches You
 
-Here's the thing about this project — the code teaches you.
+Here's the thing — the code teaches you.
 
-Every file has comments built right into it. Comments are the lines
-that start with a `#` symbol. Python ignores them when it runs the
-code, but they're there for YOU. They explain what each line does,
-why it matters, and how it connects to real world work.
+Every file has comments built right into it. Comments are lines
+that start with `#`. Python ignores them when it runs, but they're
+there for YOU. They explain what each line does, why it matters,
+and how it connects to real work.
 
 Your job at the Basic layer:
-1. Open `spreadsheet_cleaner.py` in VS Code
-2. Read every comment top to bottom before you run anything
-3. Then run the code and see it in action
-4. Come back and read the comments again — they'll make more sense now
+1. Open `spreadsheet_cleaner.py` in your code editor
+2. Read every comment top to bottom — before you run anything
+3. Run the code and watch it work
+4. Go back and read the comments again — they'll make more sense now
 
 Don't skip the comments. That's where the learning lives.
-If a comment doesn't make sense, that's okay — read it, run the code,
-and read it again. It'll click.
+If something doesn't click right away, that's normal — read it,
+run it, and come back. It'll land.
 
 ---
 
 ## Before You Start
 
-### Requirements
-Make sure your virtual environment is active (you'll see `(.venv)` in
-your terminal), then install the required libraries:
+Make sure you've completed the setup in the main README first.
+→ [README.md — New to GitHub? Start Here](../README.md)
+
+That covers installing Git, Python, your code editor, and
+setting up a virtual environment. Once your terminal shows
+`(.venv)`, you're ready. Then install the two libraries this project needs:
+
 ```bash
 pip install pandas openpyxl
 ```
 
-Not sure about virtual environments? See the **New to GitHub? Start Here**
-section in the main [README.md](../README.md).
+### What's in the project folder
 
-### Folder Structure
 ```text
 spreadsheet-cleaner/
 ├── basic/
-│   ├── spreadsheet_cleaner.py
-│   └── guide_basic.md
+│   ├── spreadsheet_cleaner.py   ← the Python program you'll run
+│   └── guide_basic.md           ← this file
 ├── sample_data/
-│   └── example_messy_dates.xlsx
+│   └── example_messy_dates.xlsx ← the test spreadsheet
 └── README.md
 ```
 
@@ -64,19 +69,24 @@ spreadsheet-cleaner/
 
 ## How to Run the App
 
-1. Open your terminal in VS Code (`Ctrl + backtick`)
-2. Navigate to the basic folder:
+**1. Open your terminal**
+- Thonny: use the Shell panel at the bottom of the screen
+- VS Code: press `Ctrl + \`` `
+- PowerShell / Terminal: open it directly from your Start menu or Spotlight
+
+**2. Navigate into the basic folder:**
 ```bash
 cd basic
 ```
-3. Run the script:
+> `cd` means "change directory" — it moves you into a folder.
+> You need to be inside the `basic` folder before running the script.
+
+**3. Run the script:**
 ```bash
 python spreadsheet_cleaner.py
 ```
-4. When prompted, enter the path to your spreadsheet.
 
-**Use the included sample file to try it right away.**
-Copy and paste this path exactly when the app asks:
+**4. When it asks for a file path, paste one of these:**
 
 - **Windows:**
 ```
@@ -87,33 +97,31 @@ Copy and paste this path exactly when the app asks:
 ../sample_data/example_messy_dates.xlsx
 ```
 
-> **Tip for Windows users:** If you copy a file path using
-> "Copy as path" from File Explorer, it will include quotes.
-> Paste it in and remove the quotes before hitting Enter.
+> **Windows tip:** If you used "Copy as path" from File Explorer,
+> the path will have quotes around it. Remove the quotes before hitting Enter.
 
 ---
 
 ## What the App Does
 
 ### Step 1 — Load the File
-The `load_file()` function:
-- Checks the file exists
-- Detects if it's a `.csv` or `.xlsx`
-- Loads it into a pandas DataFrame
-- Returns `None` if anything goes wrong
+The `load_file()` function handles opening your spreadsheet safely:
+- Checks that the file actually exists before trying to open it
+- Figures out whether it's a `.csv` or `.xlsx` file
+- Loads it into a pandas DataFrame (think of that as Python's version of a spreadsheet)
+- If something goes wrong, it tells you and stops cleanly
 
 ### Step 2 — Report
-The `report()` function prints:
-- Total rows and columns
-- Every column name
-- How many values are missing per column, with a ⚠️ warning
-  if any are found
+The `report()` function prints a plain-English summary:
+- Total number of rows and columns
+- The name of every column
+- How many values are missing in each column — with a ⚠️ warning if any are found
 
 ### Step 3 — Entry Point
-The `if __name__ == "__main__"` block:
-- Asks the user for a file path
-- Calls `load_file()`
-- Calls `report()` if the file loaded successfully
+The `if __name__ == "__main__"` block is where the program starts:
+- Asks you to type a file path
+- Passes it to `load_file()`
+- If the file loaded successfully, runs `report()`
 
 ---
 
@@ -133,18 +141,24 @@ The `if __name__ == "__main__"` block:
 ---
 
 ## Try It Yourself
-Once the app runs successfully:
 
-1. Open `example_messy_dates.xlsx` in Excel and add some blank
-   cells, then run the app again — watch the ⚠️ warnings appear
+Once the app runs successfully, push it further:
+
+1. Open `example_messy_dates.xlsx` in Excel, delete a few cell values,
+   save it, then run the app again — watch the ⚠️ warnings appear
 2. Try pointing it at a `.csv` file if you have one
-3. Try typing a fake file path — see how the app handles it
-4. Read every comment in `spreadsheet_cleaner.py` top to bottom
+3. Type a fake file path on purpose — see how the app handles it
+4. Try a path with the wrong file type (like a `.pdf`) — what happens?
+
+Each of these is a real testing technique. You're not just playing around —
+you're learning how to break things on purpose so you can build things that don't break.
 
 ---
 
 ## What's Next
-In the **Intermediate Layer** you will add the actual cleaning
-engine — stripping whitespace, fixing dates, logging every
-change the app makes. The report you built here tells you
-*what* needs fixing. Intermediate teaches the app to *fix it*.
+
+In the **Intermediate Layer** you'll add the actual cleaning engine —
+stripping whitespace, fixing dates, and logging every change the app makes.
+
+The report you built here tells you *what* needs fixing.
+Intermediate teaches the app to *fix it*.
