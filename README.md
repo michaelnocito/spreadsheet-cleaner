@@ -192,30 +192,6 @@ spreadsheet-cleaner/
 
 ---
 
-## Support the Project 💖
-
-If you find this project helpful and would like to support its continued development, donations are always appreciated but never expected.
-
-<p>
-  <a href="https://buymeacoffee.com/michaelnocito" target="_blank">
-    <img
-      src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-      alt="Buy Me A Coffee — Support Spreadsheet Cleaner"
-      height="60"
-    >
-  </a>
-</p>
-
----
-
-**Important Disclaimer:**
-*   **Voluntary:** Donations are entirely voluntary and are considered personal "tips" to support the developer's time and effort.
-*   **No Strings Attached:** A donation does not guarantee the implementation of specific features, bug fixes, or personalized support.
-*   **Non-Refundable:** All donations are final and non-refundable.
-*   **As-Is:** This software is provided "as-is" without warranty of any kind.
-
----
-
 ## Contributing
 
 Found a bug? Have an idea for a better explanation?
@@ -224,4 +200,14 @@ See [`CONTRIBUTING.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blo
 
 ---
 
-Built with 🐍 Python | Maintained by [Michael Nocito](https://github.com/michaelnocito) | [⭐ Star this repo](https://github.com/michaelnocito/spreadsheet-cleaner) if it helped you
+If this project helped you, the best thing you can do is [⭐ star the repo](https://github.com/michaelnocito/spreadsheet-cleaner) — it helps other beginners find it.
+
+If you'd like to support the work, a coffee is always appreciated but never expected.
+
+<a href="https://buymeacoffee.com/michaelnocito" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50">
+</a>
+
+---
+
+Built with 🐍 Python | Maintained by [Michael Nocito](https://github.com/michaelnocito)
