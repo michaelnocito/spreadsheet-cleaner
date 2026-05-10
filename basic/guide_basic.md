@@ -250,5 +250,5 @@ Intermediate teaches the app to *fix it*.
 Not ready to move on yet? Run the app again on a different file.
 The more you use it, the more the code will make sense.
 
-> **When you're ready:** Open [`/intermediate/guide_intermediate.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/intermediate/guide_intermediate.md)
-> and it picks up exactly where this left off.
+> **Layer 2 — Intermediate is coming soon.**
+> Check back here when it's ready and it'll pick up exactly where this left off.
