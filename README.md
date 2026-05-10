@@ -8,8 +8,8 @@
 Ever received a messy spreadsheet and had no idea where to start?
 This project teaches you Python by solving that exact problem.
 
-You'll build a real data-cleaning tool — the kind used by data 
-migration analysts to prep client spreadsheets before importing 
+You'll build a real data-cleaning tool — the kind used by data
+migration analysts to prep client spreadsheets before importing
 them into enterprise systems. No toy examples. Real, useful code.
 
 ---
@@ -40,23 +40,64 @@ tells you what you need to know before starting.
 
 ---
 
+## New to GitHub? Start Here
+
+GitHub is where this project lives. To use it, you need to download
+a copy to your own computer — this is called **cloning a repository**.
+
+Here's everything you need before you run anything:
+
+**Step 1 — Install Git**
+Git is the tool that lets your computer download files from GitHub.
+Download it at [git-scm.com/downloads](https://git-scm.com/downloads)
+and follow the installer. No special settings needed.
+
+**Step 2 — Install Python 3**
+Download it at [python.org/downloads](https://python.org/downloads).
+Choose the latest version. On Windows, check the box that says
+**"Add Python to PATH"** during the install — this is easy to miss
+and important to check.
+
+**Step 3 — Open a terminal**
+This is the text window where you type commands.
+- **Windows:** Search for *PowerShell* in the Start menu
+- **Mac:** Search for *Terminal* in Spotlight
+- **VS Code:** Open the project folder, then press `` Ctrl + ` ``
+
+Once Git, Python, and a terminal are ready, follow the steps below.
+
+---
+
 ## How to Get Started
 
-> **Students:** If you're new to Python or Git, start with
-> `/basic/guide_basic.md` — it walks you through every step.
-
 **1. Clone the repo**
+
+This downloads the project files to your computer:
 ```bash
-git clone https://github.com
+git clone https://github.com/michaelnocito/spreadsheet-cleaner.git
 cd spreadsheet-cleaner
 ```
 
-**2. Install requirements**
+**2. Create a virtual environment**
+
+This keeps the project's dependencies separate from the rest of
+your computer — a best practice for any Python project:
+```bash
+python -m venv .venv
+```
+
+Then activate it:
+- **Windows (PowerShell):** `.\.venv\Scripts\Activate.ps1`
+- **Mac / Linux:** `source .venv/bin/activate`
+
+You'll see `(.venv)` appear in your terminal when it's active.
+
+**3. Install requirements**
 ```bash
 pip install pandas openpyxl
 ```
 
-**3. Head to the Basic layer**
+**4. Head to the Basic layer**
 Open `/basic/guide_basic.md` and follow the guide step by step.
 
 ---
@@ -96,9 +137,9 @@ If you find this project helpful and would like to support its continued develop
 
 <p>
   <a href="https://buymeacoffee.com/michaelnocito" target="_blank">
-    <img 
-      src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
-      alt="Buy Me A Coffee" 
+    <img
+      src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+      alt="Buy Me A Coffee"
       height="60"
     >
   </a>
@@ -123,4 +164,4 @@ welcome.
 
 ---
 
-Built with 🐍 Python | Maintained by [Michael Nocito](https://github.com)
+Built with 🐍 Python | Maintained by [Michael Nocito](https://github.com/michaelnocito)
