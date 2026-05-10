@@ -87,10 +87,12 @@ python -m venv .venv
 ```
 
 Then activate it:
-- **Windows (PowerShell):** `.\.venv\Scripts\Activate.ps1`
+- **Windows (PowerShell):** `.\\.venv\\Scripts\\Activate.ps1`
 - **Mac / Linux:** `source .venv/bin/activate`
 
-You'll see `(.venv)` appear in your terminal when it's active.
+> **Platform note:** This project is developed and tested on Windows.
+> Mac and Linux instructions are provided as a best-effort guide but
+> have not been formally tested yet.
 
 **3. Install requirements**
 ```bash
