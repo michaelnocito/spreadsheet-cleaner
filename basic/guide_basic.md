@@ -69,9 +69,33 @@ spreadsheet-cleaner/
 │   ├── guide_basic.md           ← this file
 │   └── glossary.md              ← plain-English term reference
 ├── sample_data/
-│   └── example_messy_dates.xlsx ← the test spreadsheet
+│   ├── create_sample.py         ← run this once to create the test file
+│   └── example_messy_dates.xlsx ← the test spreadsheet (created by above)
 └── README.md
 ```
+
+---
+
+## Step 0 — Create the Sample File
+
+Before running the app, you need to generate the test spreadsheet.
+Run this one-time command from inside your project folder:
+
+```powershell
+python sample_data\create_sample.py
+```
+
+You should see:
+```
+Sample file created: sample_data\example_messy_dates.xlsx
+```
+
+That creates a fake employee spreadsheet with intentional problems —
+missing names, missing departments, dates in messy formats. That's what
+the app is going to read and report on.
+
+You only need to run this once. After that, the file lives in `sample_data`
+and you can run the main app as many times as you want.
 
 ---
 
@@ -82,27 +106,19 @@ spreadsheet-cleaner/
 - VS Code: press `Ctrl + \`` `
 - PowerShell: search *PowerShell* in the Start menu
 
-> If you're using PowerShell directly (not inside an editor), you'll
-> need to navigate into the project folder first:
-> ```powershell
-> cd C:\Users\YourName\spreadsheet-cleaner
-> ```
-> Replace `YourName` with your actual Windows username.
-> Not sure where the folder is? Right-click it in File Explorer → *Copy as path*.
-
 **2. Navigate into the basic folder:**
-```bash
+```powershell
 cd basic
 ```
 > `cd` means "change directory" — it moves you into a folder.
 > You need to be inside the `basic` folder before the next step will work.
 
 **3. Run the script:**
-```bash
+```powershell
 python spreadsheet_cleaner.py
 ```
 
-**4. When it asks for a file path, paste one of these:**
+**4. When it asks for a file path, paste this:**
 
 **Windows:**
 ```
@@ -120,14 +136,13 @@ python spreadsheet_cleaner.py
 
 ## What to Expect
 
-If everything worked, your terminal will print something like this:
+If everything worked, your terminal will print exactly this:
 
 ```
-=== Spreadsheet Quality Report ===
+Loading Excel file...
 
-File: ..\sample_data\example_messy_dates.xlsx
-Rows: 10
-Columns: 5
+--- SPREADSHEET REPORT ---
+Rows: 10 | Columns: 5
 
 Column Names:
   - employee_id
@@ -136,16 +151,19 @@ Column Names:
   - department
   - email
 
-Missing Value Check:
-  employee_id : OK
-  full_name   : ⚠️  2 missing values
-  start_date  : ⚠️  1 missing values
-  department  : ⚠️  3 missing values
-  email       : ⚠️  2 missing values
+Missing Values Per Column:
+  employee_id: 0 missing  ✓ OK
+  full_name: 2 missing  ⚠️  MISSING
+  start_date: 1 missing  ⚠️  MISSING
+  department: 3 missing  ⚠️  MISSING
+  email: 2 missing  ⚠️  MISSING
+
+--- END OF REPORT ---
 ```
 
 The ⚠️ warnings are supposed to be there — the sample file is
-designed to be messy. If you see this output, the app is working perfectly.
+designed to be messy. If your output matches this exactly,
+the app is working perfectly.
 
 > **Got an error instead?** That's okay — errors are how Python tells
 > you exactly what it needs. Read the last line of the error message first.
@@ -201,7 +219,7 @@ The `if __name__ == "__main__"` block is where the program starts:
 You built something that works. That's not nothing — that's the foundation.
 Now break it on purpose. This is how developers actually learn:
 
-1. **Make the warnings louder** — open [`example_messy_dates.xlsx`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/sample_data/example_messy_dates.xlsx)
+1. **Make the warnings louder** — open `example_messy_dates.xlsx`
    in Excel, delete a few more cell values, save it, then run the app again.
    Watch the ⚠️ count go up.
 
