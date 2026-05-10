@@ -68,9 +68,16 @@
 # 'os' lets our program talk to the computer's file system —
 # things like checking if a file exists before we try to open
 # it. Like knocking before you open a door.
+#
+# 'zipfile' is a standard Python library for working with zip
+# archives. We import it here only to catch a specific error —
+# .xlsx files are zip archives under the hood, and if the file
+# hasn't fully synced from OneDrive yet, Python sees a broken
+# zip and crashes. We catch that and explain it clearly instead.
 # ============================================================
 import pandas as pd
 import os
+import zipfile
 
 
 # ============================================================
@@ -113,14 +120,46 @@ def load_file(filepath):
 
     elif filepath.endswith('.xlsx'):
         print("Loading Excel file...")
-        # engine='openpyxl' tells pandas exactly which library
-        # to use to open the file. Without it, some versions of
-        # pandas can't figure it out automatically and crash.
-        # openpyxl is already installed as part of this project
-        # (you ran 'pip install pandas openpyxl' in setup).
-        # Real world: like telling your phone which app to use
-        # when opening a file instead of letting it guess.
-        return pd.read_excel(filepath, engine='openpyxl')
+        # We wrap this in a try/except block to catch a specific
+        # error that happens when the file lives in OneDrive and
+        # hasn't fully synced to your hard drive yet.
+        #
+        # .xlsx files are actually zip archives under the hood —
+        # Excel just uses a .xlsx extension. If OneDrive hasn't
+        # downloaded the real file yet, Python finds a tiny
+        # placeholder instead of the actual data and crashes.
+        #
+        # The fix: right-click the file in File Explorer and
+        # choose "Always keep on this device", then try again.
+        # Or move the project outside your OneDrive folder.
+        #
+        # try/except is Python's way of saying: "attempt this,
+        # and if a specific error happens, handle it gracefully
+        # instead of crashing." Real world: think of it like a
+        # form that shows 'invalid email' instead of just
+        # freezing when you type something wrong.
+        try:
+            # engine='openpyxl' tells pandas exactly which library
+            # to use to open the file. Without it, some versions of
+            # pandas can't figure it out automatically and crash.
+            return pd.read_excel(filepath, engine='openpyxl')
+        except zipfile.BadZipFile:
+            print()
+            print("Could not open the file.")
+            print()
+            print("This usually means the file is stored in OneDrive")
+            print("but hasn't fully downloaded to your computer yet.")
+            print()
+            print("To fix it:")
+            print("  1. Open File Explorer and find the file")
+            print("  2. Right-click it")
+            print("  3. Select 'Always keep on this device'")
+            print("  4. Wait for the green checkmark, then try again")
+            print()
+            print("Or move the project to a folder outside OneDrive,")
+            print("such as C:\\Users\\YourName\\Projects\\spreadsheet-cleaner")
+            print()
+            return None
 
     else:
         print("Unsupported file type. Please use a .csv or .xlsx file.")

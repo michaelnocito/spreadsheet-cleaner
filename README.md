@@ -74,6 +74,26 @@ Once all four are ready, follow the steps below.
 
 ---
 
+## ⚠️ OneDrive Users — Read This First
+
+If your Documents or Desktop folder syncs to OneDrive, **clone this
+project to a folder outside OneDrive** — for example:
+
+```
+C:\Users\YourName\Projects\spreadsheet-cleaner
+```
+
+OneDrive sometimes shows files as present before they've fully downloaded.
+This causes a confusing error when Python tries to open them.
+Moving the project outside OneDrive avoids the problem entirely.
+
+If you've already cloned inside OneDrive and see an error about a
+"bad zip file", right-click the `.xlsx` file in File Explorer,
+choose **"Always keep on this device"**, wait for the green checkmark,
+then try again.
+
+---
+
 ## How to Get Started
 
 **1. Clone the repo**
