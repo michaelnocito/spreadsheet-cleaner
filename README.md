@@ -74,42 +74,40 @@ Once all four are ready, follow the steps below.
 
 ---
 
-## ⚠️ OneDrive Users — Read This First
-
-If your Documents or Desktop folder syncs to OneDrive, **clone this
-project to a folder outside OneDrive** — for example:
-
-```
-C:\Users\YourName\Projects\spreadsheet-cleaner
-```
-
-OneDrive sometimes shows files as present before they've fully downloaded.
-This causes a confusing error when Python tries to open them.
-Moving the project outside OneDrive avoids the problem entirely.
-
-If you've already cloned inside OneDrive and see an error about a
-"bad zip file", right-click the `.xlsx` file in File Explorer,
-choose **"Always keep on this device"**, wait for the green checkmark,
-then try again.
-
----
-
 ## How to Get Started
 
 **1. Clone the repo**
 
-This downloads the project to your computer. Run these two commands in your terminal:
-```bash
-git clone https://github.com/michaelnocito/spreadsheet-cleaner.git
-cd spreadsheet-cleaner
+The command below downloads the project directly to `C:\Projects\spreadsheet-cleaner`
+— a folder outside OneDrive. This is intentional and explained below.
+
+```powershell
+git clone https://github.com/michaelnocito/spreadsheet-cleaner.git C:\Projects\spreadsheet-cleaner
+cd C:\Projects\spreadsheet-cleaner
 ```
+
 > `cd` means "change directory" — it moves you into the project folder you just downloaded.
+
+> **Why not Desktop or Documents?**
+> On most Windows computers, Desktop and Documents sync automatically to OneDrive.
+> OneDrive sometimes shows files as present before they've fully downloaded to your
+> hard drive. When Python tries to open one of those files it crashes with a confusing
+> error — even though the file looks like it's right there.
+>
+> Cloning to `C:\Projects\` puts the project on your local drive where Python can
+> always reach it, with no sync delays.
+>
+> ⚠️ **If you rely on OneDrive to back up your work:** this project folder will NOT
+> be backed up automatically. If that matters to you, you have two options:
+> - Back it up manually by copying the folder to OneDrive occasionally, or
+> - Use Git itself as your backup — every time you push changes to GitHub,
+>   your work is saved there. That's what this project uses.
 
 **2. Create a virtual environment**
 
 A virtual environment is like a clean workspace just for this project —
 it keeps the libraries you install here from mixing with the rest of your computer:
-```bash
+```powershell
 python -m venv .venv
 ```
 
@@ -142,7 +140,7 @@ You'll know it worked when you see `(.venv)` at the start of your terminal line.
 **3. Install requirements**
 
 This installs the two libraries the project needs:
-```bash
+```powershell
 pip install pandas openpyxl
 ```
 
