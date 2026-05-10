@@ -113,7 +113,14 @@ def load_file(filepath):
 
     elif filepath.endswith('.xlsx'):
         print("Loading Excel file...")
-        return pd.read_excel(filepath)
+        # engine='openpyxl' tells pandas exactly which library
+        # to use to open the file. Without it, some versions of
+        # pandas can't figure it out automatically and crash.
+        # openpyxl is already installed as part of this project
+        # (you ran 'pip install pandas openpyxl' in setup).
+        # Real world: like telling your phone which app to use
+        # when opening a file instead of letting it guess.
+        return pd.read_excel(filepath, engine='openpyxl')
 
     else:
         print("Unsupported file type. Please use a .csv or .xlsx file.")
