@@ -1,4 +1,4 @@
-# 🧼 Spreadsheet Cleaner
+# 🧼 Spreadsheet Cleaner — Learn Python by Building a Real Data Tool
 ### A Python Learning Project by Michael Nocito
 
 ---
@@ -8,7 +8,8 @@ This project teaches you Python by solving that exact problem.
 
 You'll build a real data-cleaning tool — the kind used by data
 migration analysts to prep client spreadsheets before importing
-them into enterprise systems. No toy examples. Real, useful code.
+them into enterprise systems. No toy examples. No filler exercises.
+Real, useful Python code you can actually put on a resume.
 
 ---
 
@@ -27,9 +28,9 @@ You don't just read about Python — you build something with it.
 
 ## Who This Is For
 
-- Beginners who learn best by actually building things — not just reading about them
-- Anyone who works with spreadsheets and wants to stop doing the tedious parts by hand
-- Students looking for a portfolio project that does something real and useful
+- **Python beginners** who learn best by actually building things — not just reading about them
+- **Anyone who works with spreadsheets** and wants to stop doing the tedious parts by hand
+- **Students and career changers** looking for a portfolio project that does something real and useful
 
 No prior Python experience needed for the Basic layer. Each layer
 tells you exactly what you need before you start.
@@ -77,7 +78,7 @@ Once all four are ready, follow the steps below.
 
 **1. Clone the repo**
 
-This downloads the project to your computer. Run these two commands:
+This downloads the project to your computer. Run these two commands in your terminal:
 ```bash
 git clone https://github.com/michaelnocito/spreadsheet-cleaner.git
 cd spreadsheet-cleaner
@@ -125,8 +126,22 @@ This installs the two libraries the project needs:
 pip install pandas openpyxl
 ```
 
-**4. Head to the Basic layer**
-Open `/basic/guide_basic.md` and follow the guide step by step.
+**4. Start the Basic layer**
+
+Open [`basic/guide_basic.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/guide_basic.md)
+and follow the guide step by step. It tells you exactly what to run,
+what to expect, and what every piece of the code does.
+
+---
+
+## Project Files
+
+| File | What it is |
+|---|---|
+| [`basic/spreadsheet_cleaner.py`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/spreadsheet_cleaner.py) | The working Python program |
+| [`basic/guide_basic.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/guide_basic.md) | Step-by-step learning guide for Layer 1 |
+| [`basic/glossary.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/glossary.md) | Plain-English definitions for every term in the project |
+| [`sample_data/example_messy_dates.xlsx`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/sample_data/example_messy_dates.xlsx) | Test spreadsheet — intentionally messy |
 
 ---
 
@@ -144,13 +159,12 @@ you can actually use, put on a resume, and show to anyone.
 
 ## Project Structure
 
-Here's how the project is organized. Each folder is its own layer:
-
 ```text
 spreadsheet-cleaner/
 ├── basic/
 │   ├── spreadsheet_cleaner.py   ← the working Python program
-│   └── guide_basic.md           ← step-by-step learning guide
+│   ├── guide_basic.md           ← step-by-step learning guide
+│   └── glossary.md              ← plain-English term reference
 ├── intermediate/                ← coming soon
 ├── advanced/                    ← coming soon
 ├── sample_data/
@@ -168,7 +182,7 @@ If you find this project helpful and would like to support its continued develop
   <a href="https://buymeacoffee.com/michaelnocito" target="_blank">
     <img
       src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-      alt="Buy Me A Coffee"
+      alt="Buy Me A Coffee — Support Spreadsheet Cleaner"
       height="60"
     >
   </a>
@@ -191,4 +205,4 @@ Open an issue or submit a pull request — all experience levels welcome.
 
 ---
 
-Built with 🐍 Python | Maintained by [Michael Nocito](https://github.com/michaelnocito)
+Built with 🐍 Python | Maintained by [Michael Nocito](https://github.com/michaelnocito) | [⭐ Star this repo](https://github.com/michaelnocito/spreadsheet-cleaner) if it helped you

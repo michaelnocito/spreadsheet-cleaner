@@ -29,7 +29,7 @@ there for YOU. They explain what each line does, why it matters,
 and how it connects to real work.
 
 Your job at the Basic layer:
-1. Open `spreadsheet_cleaner.py` in your code editor
+1. Open [`spreadsheet_cleaner.py`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/spreadsheet_cleaner.py) in your code editor
 2. Read every comment top to bottom — before you run anything
 3. Run the code and watch it work
 4. Go back and read the comments again — they'll make more sense the second time
@@ -38,13 +38,18 @@ Don't skip the comments. That's where the learning lives.
 If something doesn't click right away, that's completely normal —
 read it, run it, and come back. It'll land.
 
+> **New to some of the words in this guide?**
+> [`glossary.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/glossary.md)
+> has plain-English definitions for every term used here — written the way
+> a trainer would explain them, not a textbook.
+
 ---
 
 ## Before You Start
 
 Before running anything in this guide, make sure you've completed
 the full setup in the main README:
-→ [README.md — New to GitHub? Start Here](../README.md)
+→ [README.md — New to GitHub? Start Here](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/README.md#new-to-github-start-here)
 
 That walkthrough covers installing Git, Python, a code editor, and
 creating your virtual environment. Come back here once your terminal
@@ -61,7 +66,8 @@ pip install pandas openpyxl
 spreadsheet-cleaner/
 ├── basic/
 │   ├── spreadsheet_cleaner.py   ← the Python program you'll run
-│   └── guide_basic.md           ← this file
+│   ├── guide_basic.md           ← this file
+│   └── glossary.md              ← plain-English term reference
 ├── sample_data/
 │   └── example_messy_dates.xlsx ← the test spreadsheet
 └── README.md
@@ -144,6 +150,7 @@ designed to be messy. If you see this output, the app is working perfectly.
 > **Got an error instead?** That's okay — errors are how Python tells
 > you exactly what it needs. Read the last line of the error message first.
 > It's more helpful than it looks.
+> Common ones and what they mean → [`glossary.md — Error / Exception`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/glossary.md#error--exception)
 
 ---
 
@@ -172,6 +179,10 @@ The `if __name__ == "__main__"` block is where the program starts:
 
 ## Python Concepts Introduced
 
+> **Unfamiliar with any of these?**
+> [`glossary.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/glossary.md)
+> has a plain-English definition for every term in this table.
+
 | Concept | Where You See It |
 |---|---|
 | `import` | Top of file — loading pandas and os |
@@ -190,8 +201,8 @@ The `if __name__ == "__main__"` block is where the program starts:
 You built something that works. That's not nothing — that's the foundation.
 Now break it on purpose. This is how developers actually learn:
 
-1. **Make the warnings louder** — open `example_messy_dates.xlsx` in Excel,
-   delete a few more cell values, save it, then run the app again.
+1. **Make the warnings louder** — open [`example_messy_dates.xlsx`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/sample_data/example_messy_dates.xlsx)
+   in Excel, delete a few more cell values, save it, then run the app again.
    Watch the ⚠️ count go up.
 
 2. **Try a different file** — point it at any `.csv` file on your computer.
@@ -221,5 +232,5 @@ Intermediate teaches the app to *fix it*.
 Not ready to move on yet? Run the app again on a different file.
 The more you use it, the more the code will make sense.
 
-> **When you're ready:** Open `/intermediate/guide_intermediate.md`
+> **When you're ready:** Open [`/intermediate/guide_intermediate.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/intermediate/guide_intermediate.md)
 > and it picks up exactly where this left off.
