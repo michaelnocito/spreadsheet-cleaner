@@ -159,7 +159,7 @@ what to expect, and what every piece of the code does.
 | [`basic/spreadsheet_cleaner.py`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/spreadsheet_cleaner.py) | The working Python program |
 | [`basic/guide_basic.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/guide_basic.md) | Step-by-step learning guide for Layer 1 |
 | [`basic/glossary.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/glossary.md) | Plain-English definitions for every term in the project |
-| [`sample_data/example_messy_dates.xlsx`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/sample_data/example_messy_dates.xlsx) | Test spreadsheet — intentionally messy |
+| [`sample_data/create_sample.py`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/sample_data/create_sample.py) | Run once to generate the test spreadsheet |
 
 ---
 
@@ -186,7 +186,7 @@ spreadsheet-cleaner/
 ├── intermediate/                ← coming soon
 ├── advanced/                    ← coming soon
 ├── sample_data/
-│   └── example_messy_dates.xlsx ← test file to run the app on
+│   └── create_sample.py         ← run once to generate the test spreadsheet
 └── README.md                    ← you are here
 ```
 
@@ -220,6 +220,7 @@ If you find this project helpful and would like to support its continued develop
 
 Found a bug? Have an idea for a better explanation?
 Open an issue or submit a pull request — all experience levels welcome.
+See [`CONTRIBUTING.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/CONTRIBUTING.md) for details.
 
 ---
 
