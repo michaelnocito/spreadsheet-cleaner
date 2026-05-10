@@ -93,10 +93,26 @@ python -m venv .venv
 ```
 
 Then activate it:
-- **Windows (PowerShell):** `.\.venv\Scripts\Activate.ps1`
-- **Mac / Linux:** `source .venv/bin/activate`
+
+**Windows (PowerShell):**
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+**Mac / Linux:**
+```bash
+source .venv/bin/activate
+```
 
 You'll know it worked when you see `(.venv)` at the start of your terminal line.
+
+> ⚠️ **Windows: getting a script execution error?**
+> PowerShell blocks scripts by default on many Windows machines. Run this command once to fix it:
+> ```powershell
+> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+> ```
+> This only affects your user account — it's safe and is the standard fix.
+> Then run the activate command above again.
 
 > **Platform note:** This project is developed and tested on Windows.
 > Mac and Linux instructions are provided as a best-effort guide but
