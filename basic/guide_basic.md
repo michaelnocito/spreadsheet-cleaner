@@ -103,7 +103,7 @@ and you can run the main app as many times as you want.
 
 **1. Open your terminal**
 - Thonny: use the Shell panel at the bottom of the screen
-- VS Code: press `Ctrl + \`` `
+- VS Code: press `` Ctrl + ` ``
 - PowerShell: search *PowerShell* in the Start menu
 
 **2. Navigate into the basic folder:**
@@ -252,3 +252,13 @@ The more you use it, the more the code will make sense.
 
 > **Layer 2 — Intermediate is coming soon.**
 > Check back here when it's ready and it'll pick up exactly where this left off.
+
+---
+
+If this guide helped you learn something, the best thing you can do is [⭐ star the repo](https://github.com/michaelnocito/spreadsheet-cleaner) — it helps other beginners find it.
+
+If you'd like to support the work, a coffee is always appreciated but never expected.
+
+<a href="https://buymeacoffee.com/michaelnocito" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50">
+</a>
