@@ -20,9 +20,13 @@ You don't just read about Python — you build something with it.
 
 | Layer | What You Build | Concepts Covered |
 |---|---|---|
-| 🟢 Basic | Load a spreadsheet, generate a quality report | imports, functions, if/else, pandas basics |
+| 🟢 Basic | Load a spreadsheet, generate a quality report *(report only — no cleaning yet)* | imports, functions, if/else, pandas basics |
 | 🟡 Intermediate | Clean the data, fix dates, log every change | loops, string methods, error handling, file writing |
 | 🔴 Advanced | Full desktop app with a GUI | CustomTkinter, connecting UI to logic, app launcher |
+
+> **Start with Basic.** It runs in your terminal and prints a plain-text report about
+> your spreadsheet — missing values, duplicates, format issues. No data is changed.
+> That comes in Intermediate.
 
 ---
 
@@ -66,7 +70,7 @@ A code editor is where you'll read and write Python files. Any of these free opt
 **Step 4 — Open a terminal**
 The terminal is the text window where you type commands to run your code.
 - **Thonny:** use the built-in Shell panel at the bottom of the screen
-- **VS Code:** press `Ctrl + \`` `
+- **VS Code:** press `` Ctrl + ` ``
 - **Windows (no editor):** search *PowerShell* in the Start menu
 - **Mac:** search *Terminal* in Spotlight
 
@@ -74,81 +78,105 @@ Once all four are ready, follow the steps below.
 
 ---
 
-## How to Get Started
+## Windows Quickstart
+
+If you're on Windows and want to get running fast, here's the exact sequence
+from scratch — copy and paste each block into PowerShell.
 
 **1. Clone the repo**
-
-The command below downloads the project directly to `C:\Projects\spreadsheet-cleaner`
-— a folder outside OneDrive. This is intentional and explained below.
 
 ```powershell
 git clone https://github.com/michaelnocito/spreadsheet-cleaner.git C:\Projects\spreadsheet-cleaner
 cd C:\Projects\spreadsheet-cleaner
 ```
 
-> `cd` means "change directory" — it moves you into the project folder you just downloaded.
-
-> **Why not Desktop or Documents?**
-> On most Windows computers, Desktop and Documents sync automatically to OneDrive.
-> OneDrive sometimes shows files as present before they've fully downloaded to your
-> hard drive. When Python tries to open one of those files it crashes with a confusing
-> error — even though the file looks like it's right there.
+> **Why `C:\Projects\` instead of Desktop or Documents?**
+> Desktop and Documents usually sync to OneDrive automatically. OneDrive can
+> show a file as present before it's fully downloaded — when Python tries to
+> open it, you get a confusing error even though the file looks right there.
+> `C:\Projects\` is local-only and always reachable.
 >
-> Cloning to `C:\Projects\` puts the project on your local drive where Python can
-> always reach it, with no sync delays.
->
-> ⚠️ **If you rely on OneDrive to back up your work:** this project folder will NOT
-> be backed up automatically. If that matters to you, you have two options:
-> - Back it up manually by copying the folder to OneDrive occasionally, or
-> - Use Git itself as your backup — every time you push changes to GitHub,
->   your work is saved there. That's what this project uses.
+> ⚠️ This folder will **not** back up to OneDrive automatically. Use Git pushes
+> as your backup, or copy the folder to OneDrive manually.
 
-**2. Create a virtual environment**
+**2. Create and activate a virtual environment**
 
-A virtual environment is like a clean workspace just for this project —
-it keeps the libraries you install here from mixing with the rest of your computer:
 ```powershell
 python -m venv .venv
-```
-
-Then activate it:
-
-**Windows (PowerShell):**
-```powershell
 .\.venv\Scripts\Activate.ps1
-```
-
-**Mac / Linux:**
-```bash
-source .venv/bin/activate
 ```
 
 You'll know it worked when you see `(.venv)` at the start of your terminal line.
 
-> ⚠️ **Windows: getting a script execution error?**
-> PowerShell blocks scripts by default on many Windows machines. Run this command once to fix it:
+> ⚠️ **Getting a script execution error?** Run this once to fix it, then activate again:
 > ```powershell
 > Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 > ```
-> This only affects your user account — it's safe and is the standard fix.
-> Then run the activate command above again.
-
-> **Platform note:** This project is developed and tested on Windows.
-> Mac and Linux instructions are provided as a best-effort guide but
-> have not been formally tested yet.
 
 **3. Install requirements**
 
-This installs the two libraries the project needs:
 ```powershell
 pip install pandas openpyxl
 ```
 
-**4. Start the Basic layer**
+**4. Generate the sample file**
 
-Open [`basic/guide_basic.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/guide_basic.md)
-and follow the guide step by step. It tells you exactly what to run,
-what to expect, and what every piece of the code does.
+The project includes a script that creates a realistic messy spreadsheet for you to test with:
+
+```powershell
+python sample_data\create_sample.py
+```
+
+This creates `sample_data\sample_spreadsheet.xlsx` — a file with intentional issues
+(missing values, duplicate rows, messy formatting) so you can see the tool working
+on real problems right away.
+
+**5. Run the Basic cleaner**
+
+```powershell
+python basic\spreadsheet_cleaner.py sample_data\sample_spreadsheet.xlsx
+```
+
+You should see a quality report printed in your terminal. That's it — you're in.
+
+> **Not seeing anything, or getting an error?** Open
+> [`basic/guide_basic.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/guide_basic.md)
+> — it walks through every step with expected output and common fixes.
+
+---
+
+## Mac / Linux Setup
+
+**1. Clone the repo**
+
+```bash
+git clone https://github.com/michaelnocito/spreadsheet-cleaner.git ~/Projects/spreadsheet-cleaner
+cd ~/Projects/spreadsheet-cleaner
+```
+
+**2. Create and activate a virtual environment**
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+**3. Install requirements**
+
+```bash
+pip install pandas openpyxl
+```
+
+**4. Generate the sample file and run**
+
+```bash
+python sample_data/create_sample.py
+python basic/spreadsheet_cleaner.py sample_data/sample_spreadsheet.xlsx
+```
+
+> **Platform note:** This project is developed and tested on Windows.
+> Mac and Linux instructions are provided as a best-effort guide but
+> have not been formally tested yet.
 
 ---
 
