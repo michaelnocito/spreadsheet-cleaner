@@ -98,17 +98,18 @@ import zipfile
 # ============================================================
 def load_file(filepath):
 
-    # os.path.exists() checks if the file is actually there.
+    # os.path.exists() checks whether a file is actually present
+    # at the path you gave it. It returns True or False.
     # 'not' flips the answer — so this reads:
     # "if the file does NOT exist, tell the user and stop."
     # Real world: ever clicked a broken download link? This is
-    # the check that catches that before anything goes wrong.
+    # the check that prevents that crash before it happens.
     if not os.path.exists(filepath):
         print("File not found. Double check your file path and try again.")
         return None
     # 'return' exits the function and sends a value back to
     # whoever called it. Returning None is our way of saying
-    # "nothing to give you, something went wrong."
+    # "nothing to give you — something went wrong."
 
     # str.endswith() checks how a string of text ends.
     # Here we use it to figure out what kind of file we have.
@@ -192,13 +193,16 @@ def report(df):
     # needing to know if it has 50 rows or 50,000.
     rows, cols = df.shape
     print(f"Rows: {rows} | Columns: {cols}")
-    # f-strings let you drop a variable right inside a sentence
-    # using curly braces {}. Way cleaner than trying to glue
-    # strings together with plus signs.
+    # f-strings let you embed a variable directly inside a
+    # string using curly braces {}. The f before the opening
+    # quote is what activates it. Python swaps in the value
+    # at runtime — so f"Rows: {rows}" becomes "Rows: 10".
+    # Way cleaner than gluing strings together with + signs.
 
     print("\nColumn Names:")
-    # df.columns.tolist() gives us all the column headers as a
-    # list. Like reading the top row of a spreadsheet out loud.
+    # df.columns.tolist() returns all the column headers as a
+    # plain Python list. Like reading the top row of a
+    # spreadsheet out loud.
     for col in df.columns.tolist():
         print(f"  - {col}")
     # 'for' loops go through a list one item at a time and do
@@ -206,17 +210,20 @@ def report(df):
     # cashier scanning items one by one at checkout.
 
     print("\nMissing Values Per Column:")
-    # df.isnull().sum() counts blank cells per column.
-    # In data migration, a missing required field can cause an
-    # import to fail — so catching these early is a big deal.
-    # Real world: imagine submitting a form online and leaving
-    # a required field blank. Same idea, just at scale.
+    # df.isnull() returns a True/False version of the whole
+    # spreadsheet — True wherever a cell is blank, False where
+    # it has a value. Calling .sum() on that adds up all the
+    # Trues per column (True counts as 1, False as 0).
+    # Result: a count of blank cells in each column.
+    # Real world: imagine a form submission where required
+    # fields were left empty — this is how you'd find them.
     missing = df.isnull().sum()
     for col, count in missing.items():
         status = "⚠️  MISSING" if count > 0 else "✓ OK"
         print(f"  {col}: {count} missing  {status}")
     # The line above uses a one-line if/else called a ternary.
-    # It's shorthand for: if count > 0, say MISSING, otherwise OK.
+    # It's shorthand for: if count > 0, label it MISSING,
+    # otherwise label it OK.
 
     print("\n--- END OF REPORT ---\n")
 
@@ -225,26 +232,44 @@ def report(df):
 # ENTRY POINT
 # ============================================================
 # This is where the program actually starts running.
-# The 'if __name__ == "__main__"' line is a Python best
-# practice. It means: only run this block if someone is
-# running THIS file directly. If another program imports this
-# file to borrow our functions, this block stays quiet.
-# Real world: like a light switch that only works in one room.
+#
+# 'if __name__ == "__main__"' is a Python best practice that
+# means: only run this block if someone is executing THIS file
+# directly (e.g. 'python spreadsheet_cleaner.py'). If another
+# script imports this file to borrow our functions, this block
+# stays quiet and doesn't run automatically.
+# Real world: like a light switch wired to only one room —
+# flipping it here doesn't affect the rest of the house.
 # ============================================================
 if __name__ == "__main__":
 
-    # input() does two things: prints a message to the user
-    # and then waits for them to type something and hit Enter.
-    # In this program it's asking the user to tell us where
-    # their spreadsheet lives on their computer.
+    # input() prints a prompt and waits for the user to type
+    # something and press Enter. Whatever they type comes back
+    # as a string — that's our file path.
     #
-    # Real world: input() is the building block behind any
-    # form you've ever filled out — a login screen, a search
-    # bar, a checkout form. Whenever a program needs info from
-    # a human, input() (or something like it) is involved.
+    # Real world: input() is behind every form you've filled
+    # out — login screens, search bars, checkout forms. Any
+    # time a program needs something from a human, this is
+    # the building block.
     filepath = input("Enter the path to your spreadsheet: ").strip()
-    # .strip() quietly removes any accidental spaces the user
-    # might have typed before or after the file path.
+    # .strip() removes any accidental spaces before or after
+    # the path — easy to add by mistake when copy-pasting.
+
+    # Windows users sometimes copy a file path from Explorer
+    # and it arrives wrapped in quotes, like:
+    #   "C:\Users\Mike\data.xlsx"
+    # Python can't open a path with literal quote marks in it,
+    # so we strip them off here before doing anything else.
+    if filepath.startswith('"') and filepath.endswith('"'):
+        filepath = filepath[1:-1]
+    if filepath.startswith("'") and filepath.endswith("'"):
+        filepath = filepath[1:-1]
+
+    # Normalize the extension to lowercase so .XLSX and .CSV
+    # work the same as .xlsx and .csv. Capitalization varies
+    # across operating systems and shouldn't cause a failure.
+    root, ext = os.path.splitext(filepath)
+    filepath = root + ext.lower()
 
     df = load_file(filepath)
 
