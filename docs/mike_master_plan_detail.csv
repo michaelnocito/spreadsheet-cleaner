@@ -1,0 +1,40 @@
+TRACK,MILESTONE,TARGET DATE,ACTIONS / METRICS,SUCCESS MEASURE
+SOFTWARE,Basic polished + tested,May 16 2026,"Fix README, sample data, comments, add requirements.txt/.gitignore/LICENSE, smoke tests",Passes full Basic testing checklist
+SOFTWARE,Intermediate built,May 20 2026,"Date cleaning, whitespace, duplicates, change log export",All Level 1-2 tests pass
+SOFTWARE,Intermediate tested + stable,May 27 2026,Full 3-level test pass,All Level 3 stress tests pass
+SOFTWARE,Advanced built (CustomTkinter),Jun 3 2026,"Desktop GUI, color-coded output, migration-ready workflow",App runs end-to-end on Windows
+SOFTWARE,APP 1 COMPLETE — Spreadsheet Cleaner,Jun 10 2026,"Advanced tested, all tiers stable, GitHub clean",Fresh clone runs perfectly start to finish
+SOFTWARE,Visualization App built (Streamlit + Plotly),Jun 24 2026,"Basic + Intermediate + Advanced, all 3 layers",Learner can go from CSV to dashboard
+SOFTWARE,APP 2 COMPLETE — Visualization App,Jun 30 2026,"Full testing pass, both apps stable",Day 45 functional deadline met
+SOFTWARE,Feedback + stabilization month,Jul 2026,"Community feedback, blockers fixed only",No open blockers on either app
+SOFTWARE,Both apps packaged for sale,Aug 2026,"Gumroad or Lemon Squeezy, bundle option",Purchase flow works end-to-end
+SOFTWARE,App 3 begins (Document Generator),Sep 2026,Public repo with educational layer designed in,Concept locked and repo created
+SOFTWARE,App 3 complete,Nov 2026,"All 3 tiers, tested, stable, listed",Listed and promoted
+SOFTWARE,App 4 complete,Mar 2027,"All 3 tiers, tested, stable, listed",Listed and promoted
+SOFTWARE,Course live,Jun 2027,"Built on existing app curriculum, sold via Gumroad/Teachable",First course sale within 30 days
+SOFTWARE,5+ apps portfolio established,Dec 2027,Each app cross-promotes others,"$5,000+/mo recurring"
+MARKETING,r/Python showcase post,May 13-14 2026,"Post to pinned monthly thread, mid-week only",Post live honest copy no rule violations
+MARKETING,Hacker News Show HN,May 13-14 2026,Show HN: A Python data cleaning project built to teach not just demonstrate,Post live on HN
+MARKETING,LinkedIn ongoing posting,Weekly from May 2026,Post about problems being solved not just project updates,143 impressions wk1 — grow 20%+ weekly
+MARKETING,One article published,Jul 2026,Towards Data Science or Dev.to — permanent Google traffic,Article indexed linked from repo
+MARKETING,YouTube video published,Aug 2026,How I built a data migration tool that teaches Python,Video live linked from repos and article
+MARKETING,Niche community engaged,Sep 2026,"Salesforce Admin group, nonprofit tech Slack, or HubSpot community",Known contributor in 1 community
+MARKETING,Upwork profile live,Sep-Oct 2026,"After portfolio established: data cleaning, migration prep, pandas scripting",First client within 60 days
+JOB SEARCH,LinkedIn updated,May 12 2026,"Headline, About, Featured (pin repo), Skills updated",Profile reflects Data Analyst positioning
+JOB SEARCH,Resume updated — Data Ops version,May 14 2026,"Lead with 100+ migrations, Python/SQL in progress, GitHub repo linked",Resume ready to submit
+JOB SEARCH,Resume updated — Junior DA version,May 17 2026,"Emphasize analytics pivot, Python/SQL trajectory",Second version ready
+JOB SEARCH,Indeed alerts set,May 12 2026,"Data Operations Analyst remote, Junior Data Analyst remote NJ/remote",Alerts firing daily
+JOB SEARCH,Applications begin,May 13 2026,10-15 targeted apps/week — quality over volume,10-15 apps submitted week 1
+JOB SEARCH,First interviews,Jun 2026,"10-15 apps/week x 4 weeks = 40-60 apps = realistic interview pipeline",2-4 interviews scheduled
+JOB SEARCH,EMPLOYED — target date,Jul 2026,"Data Operations Analyst or Junior Data Analyst, remote-first",Offer accepted start date set
+CONTINGENCY,UserTesting activated,Aug 2026 if needed,"On-demand, $10-20/day, no commitment — activate first","$300-600/month possible"
+CONTINGENCY,Prolific activated,Aug 2026 if needed,"Data/research studies, async, $15-20/day","$450-600/month combined"
+CONTINGENCY,Data labeling (Scale AI / Appen),Aug 2026 if needed,"$10-15/hr flexible, no ongoing commitment",Fills income gap without impacting coding
+CONTINGENCY,Upwork freelance,Sep-Oct 2026,Only after portfolio is live — data cleaning and migration prep,Not before apps are published
+EARNINGS,Month 2,Jul 2026,Both apps live donations only,"$20-60/mo recurring"
+EARNINGS,Month 4,Sep 2026,"Paid apps launched, YouTube live","$100-300/mo recurring"
+EARNINGS,Month 6,Nov 2026,"Word of mouth, article ranking, niche community","$700-1500/mo recurring"
+EARNINGS,Month 9,Feb 2027,"3 apps listed, bundle, consulting option","$1200-2500/mo recurring"
+EARNINGS,Month 12,May 2027,4 apps brand established,"$2500-5000/mo recurring"
+EARNINGS,Month 18,Nov 2027,5 apps + course live,"$5000-10000/mo recurring"
+EARNINGS,Month 24,May 2028,Portfolio brand + community + course,"$10000-15000/mo recurring"
