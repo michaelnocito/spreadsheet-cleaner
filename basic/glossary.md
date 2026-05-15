@@ -3,10 +3,10 @@
 
 New to a word? Look it up here and jump back to the guide.
 These aren't textbook definitions — they're the answers to
-"wait, what does that mean?" written the way a trainer would explain it.
+"wait, what does that mean?" written the way a coach would explain it.
 
-> **This glossary is for the Basic layer.**
-> It covers every term used in [`spreadsheet_cleaner.py`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/spreadsheet_cleaner.py)
+> **This glossary covers the Basic layer.**
+> It defines every term used in [`spreadsheet_cleaner.py`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/spreadsheet_cleaner.py)
 > and [`guide_basic.md`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/guide_basic.md).
 
 ---
@@ -22,16 +22,16 @@ Without it, Python only knows its built-in basics.
 ---
 
 ### `def` — Define a Function
-A function is a named set of instructions you write once and can run
-as many times as you need. `def` is how you create one.
+A function is a named set of instructions you write once and run as
+many times as you want. `def` is how you create one.
 
 ```python
 def greet():
     print("Hello!")
 ```
 
-After writing that, you can call `greet()` anywhere in the file
-and it runs those instructions. In this project, `load_file()` and
+Once you've written that, you can call `greet()` anywhere in the file
+and Python runs those instructions. In this project, `load_file()` and
 `report()` are both functions.
 
 → See how they're used in [`guide_basic.md — What the App Does`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/guide_basic.md#what-the-app-does)
@@ -111,8 +111,8 @@ It's the entry point — the ignition switch. When you type
 `python spreadsheet_cleaner.py` in the terminal, Python sees this
 block and knows that's where to start.
 
-It's one of the most common lines in Python programs and one of the
-most confusing to beginners. Just know: it means *"start here."*
+It's one of the most common lines in Python and one of the most
+confusing the first time you meet it. Translate it as: *"start here."*
 
 → See it in context in [`guide_basic.md — What the App Does`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/guide_basic.md#what-the-app-does)
 
@@ -133,14 +133,13 @@ it waits for you to tell it.
 ---
 
 ### DataFrame
-Pandas' word for a spreadsheet loaded into Python.
-Rows, columns, cell values — all the structure you're used to
-seeing in Excel, but now it's in code and you can do things to it
-that Excel would take forever to do manually.
+Pandas' word for a spreadsheet loaded into Python. Rows, columns,
+cell values — the same structure you know from Excel, but now in code,
+where you can do things in seconds that Excel takes ages to do by hand.
 
-When `load_file()` opens your `.xlsx` or `.csv`, it comes back as a DataFrame.
-Everything `report()` does — counting rows, listing columns,
-checking for missing values — is done on that DataFrame.
+When `load_file()` opens your `.xlsx` or `.csv`, it comes back as a
+DataFrame. Everything `report()` does — counting rows, listing columns,
+checking for missing values — runs on that DataFrame.
 
 ---
 
@@ -156,12 +155,11 @@ That's the engine behind the ⚠️ warnings in the report.
 ## General Coding Terms
 
 ### Terminal / Shell
-The text window where you type commands to run your code.
-No clicking, no menus — just you typing instructions directly
-and the computer responding.
+The text window where you type commands to run your code. No clicking,
+no menus — you type instructions, the computer answers.
 
-In this project, the terminal is where you run `python spreadsheet_cleaner.py`
-and where the report prints out.
+In this project, the terminal is where you run
+`python spreadsheet_cleaner.py` and where the report prints out.
 
 → See how to open yours in [`guide_basic.md — How to Run the App`](https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/basic/guide_basic.md#how-to-run-the-app)
 
@@ -175,9 +173,9 @@ starts at line 1 and works its way down.
 ---
 
 ### Library / Package
-Pre-built code someone else wrote that you can borrow.
-Instead of writing your own spreadsheet loader from scratch,
-you import `pandas` — a library that already does it perfectly.
+Pre-built code someone else wrote that you can borrow. Instead of
+writing your own spreadsheet loader from scratch, you import `pandas`
+— a library that already does it well.
 
 In this project: `pandas` handles the spreadsheet, `os` handles file paths.
 
@@ -196,9 +194,10 @@ If you forget, the libraries won't be found.
 ---
 
 ### Error / Exception
-Python stopping to tell you something went wrong.
-Errors aren't failures — they're Python being specific about what it needs.
-The last line of an error message is almost always the most useful part.
+Python stopping to tell you something went wrong. Errors aren't
+failures — they're Python being specific about what it needs. The
+last line of an error message is almost always the most useful part.
+Read it first.
 
 Common ones you might see in this project:
 - `FileNotFoundError` — the path you typed doesn't point to a real file
@@ -250,12 +249,11 @@ A **relative path** is a shortcut that starts from where you already are:
 ---
 
 ### Comment
-A line in code that starts with `#`. Python ignores it completely when running.
-Comments exist for the human reading the code — explaining what a line does,
-why a decision was made, or what to watch out for.
+A line in code that starts with `#`. Python ignores it completely when
+running. Comments exist for the human reading the code — explaining
+what a line does, why a decision was made, or what to watch out for.
 
-In this project, comments are part of the curriculum.
-Read them.
+In this project, comments are part of the curriculum. Read them.
 
 ---
 

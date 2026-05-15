@@ -1,18 +1,18 @@
 # Contributing to Spreadsheet Cleaner
 
-Thanks for taking the time to contribute — all experience levels are welcome here.
-This project is designed to be approachable for beginners, so clear and kind
-communication is the most important thing.
+Thanks for showing up — every experience level is welcome here. This
+project exists to help beginners build something real, so clear and
+kind communication matters more than anything else.
 
 ---
 
 ## What Kind of Contributions Are Welcome
 
-- **Bug reports** — something broken, unclear, or behaving unexpectedly
+- **Bug reports** — something broken, unclear, or behaving in a way you didn't expect
 - **Doc improvements** — typos, confusing explanations, missing steps
-- **Better error messages** — if an error message confused you, it can probably be clearer
-- **New sample data** — additional messy spreadsheet examples for testing
-- **Layer 2 / Layer 3 ideas** — suggestions for what the Intermediate or Advanced layers should cover
+- **Better error messages** — if an error message tripped you up, it can almost always be clearer
+- **New sample data** — more messy spreadsheet examples for learners to test against
+- **Layer 2 / Layer 3 ideas** — suggestions for what the Intermediate or Advanced layers should teach
 
 ---
 
@@ -40,12 +40,13 @@ Keep pull requests focused — one fix or improvement per PR makes review much f
 
 ## Code Style
 
-- Follow the comment style already in the project — comments explain *why*, not just *what*
-- Keep language plain and beginner-friendly; this project's audience is people still learning
-- If you change a function, update the corresponding guide doc if it affects expected output
+- Match the comment style already in the project — comments explain *why*, not just *what*
+- Keep language plain and beginner-friendly; the audience is people still learning Python
+- If you change a function, update the matching guide doc when it affects expected output
 
 ---
 
 ## Questions?
 
-Open an issue and ask. There are no dumb questions here.
+Open an issue and ask. There are no dumb questions here — if something
+confused you, it will confuse the next learner too, and that's worth fixing.
