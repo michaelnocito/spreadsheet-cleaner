@@ -306,6 +306,21 @@ complete Python project that shows real data-cleaning workflow skills
 
 ---
 
+## More Tools
+
+**[NEXUS — Learn SQL by Solving a Mystery](https://github.com/michaelnocito/nexus-sql-mystery)** —
+A narrative-driven game where you learn SQL by investigating corporate fraud.
+If you're learning Python with Spreadsheet Cleaner, NEXUS is the natural next step
+for picking up SQL. Includes a free
+**[SQL Foundations Guide](https://github.com/michaelnocito/nexus-sql-mystery/blob/master/docs/sql-foundations.md)**
+with examples and exercises.
+
+**[Test Data & Document Generator](https://github.com/michaelnocito/test-data-doc-generator)** —
+Generate fictional PDFs, Word docs, and Excel datasets for testing and demos.
+Free Windows app, no Python required.
+
+---
+
 ## Contributing
 
 Found a bug? Have an idea for a clearer explanation? Open an issue
