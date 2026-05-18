@@ -315,9 +315,9 @@ for picking up SQL. Includes a free
 **[SQL Foundations Guide](https://github.com/michaelnocito/nexus-sql-mystery/blob/master/docs/sql-foundations.md)**
 with examples and exercises.
 
-**[Test Data & Document Generator](https://github.com/michaelnocito/test-data-doc-generator)** —
-Generate fictional PDFs, Word docs, and Excel datasets for testing and demos.
-Free Windows app, no Python required.
+**[RecordForge](https://github.com/michaelnocito/recordforge)** —
+Generate fictional PDFs, Word docs, HTML files, and Excel datasets for testing, QA, and demos.
+Free Windows app, no Python required. The Messy Data output pairs directly with this cleaner.
 
 ---
 
