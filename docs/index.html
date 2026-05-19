@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spreadsheet Cleaner — Build a Real Python Tool. Learn by Doing.</title>
+  <meta name="description" content="A beginner Python project where you build a real spreadsheet auditing and cleaning tool. Guided comments, plain-English docs, no experience needed." />
+  <meta property="og:title" content="Spreadsheet Cleaner — Learn Python by Building Something Real" />
+  <meta property="og:description" content="Build a working data-cleaning tool from scratch. Every line explained. No experience needed." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://michaelnocito.github.io/spreadsheet-cleaner/" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d1117;
+      --surface:   #161b22;
+      --surface2:  #21262d;
+      --border:    #30363d;
+      --accent:    #22c55e;
+      --accent-lt: #4ade80;
+      --blue:      #58a6ff;
+      --amber:     #f59e0b;
+      --text:      #e6edf3;
+      --text-dim:  #8b949e;
+      --text-muted:#57606a;
+      --mono:      'JetBrains Mono', monospace;
+      --sans:      'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    a { color: var(--accent-lt); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(13,17,23,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 40px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: var(--mono); font-weight: 700; font-size: 15px; color: var(--accent-lt); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--text-dim); font-size: 14px; font-weight: 500; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .nav-cta { background: var(--accent); color: #052e16 !important; padding: 8px 20px; border-radius: 8px; font-weight: 700; font-size: 14px; transition: background 0.15s; }
+    .nav-cta:hover { background: var(--accent-lt) !important; text-decoration: none !important; }
+
+    /* HERO */
+    .hero { min-height: calc(100vh - 60px); display: flex; align-items: center; justify-content: center; text-align: center; padding: 80px 24px; position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(34,197,94,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(34,197,94,0.05) 1px, transparent 1px); background-size: 40px 40px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%); }
+    .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(34,197,94,0.1) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+    .hero-content { position: relative; max-width: 800px; }
+    .hero-eyebrow { display: inline-block; font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--accent-lt); background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); padding: 6px 16px; border-radius: 100px; margin-bottom: 28px; }
+    h1 { font-size: clamp(38px, 6vw, 68px); font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 24px; }
+    h1 span { color: var(--accent-lt); }
+    .hero-sub { font-size: clamp(17px, 2.5vw, 20px); color: var(--text-dim); max-width: 620px; margin: 0 auto 16px; line-height: 1.6; }
+    .hero-proof { font-size: 14px; color: var(--text-muted); margin-bottom: 44px; }
+    .hero-proof strong { color: var(--text-dim); }
+    .btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: #052e16; font-weight: 700; font-size: 16px; padding: 14px 32px; border-radius: 10px; transition: background 0.15s, transform 0.1s; }
+    .btn-primary:hover { background: var(--accent-lt); text-decoration: none; transform: translateY(-1px); }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 10px; background: var(--surface2); color: var(--text); font-weight: 600; font-size: 16px; padding: 14px 32px; border-radius: 10px; border: 1px solid var(--border); transition: border-color 0.15s, transform 0.1s; }
+    .btn-secondary:hover { border-color: var(--accent-lt); text-decoration: none; transform: translateY(-1px); }
+
+    /* SHARED */
+    section { padding: 100px 24px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 3px; color: var(--accent-lt); text-transform: uppercase; margin-bottom: 12px; }
+    h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 16px; }
+    .section-sub { font-size: 18px; color: var(--text-dim); max-width: 560px; line-height: 1.6; margin-bottom: 60px; }
+
+    /* TERMINAL OUTPUT */
+    .terminal-demo { background: #0a0e1a; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.5); max-width: 700px; margin: 0 auto; }
+    .terminal-titlebar { background: var(--surface); padding: 12px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
+    .terminal-title { flex: 1; text-align: center; font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
+    .terminal-body { padding: 24px 28px 28px; font-family: var(--mono); font-size: 13px; line-height: 1.9; }
+    .t-dim    { color: #4b5563; }
+    .t-green  { color: #4ade80; }
+    .t-amber  { color: #fbbf24; }
+    .t-red    { color: #f87171; }
+    .t-blue   { color: #93c5fd; }
+    .t-white  { color: #e2e8f0; }
+    .t-prompt { color: var(--accent-lt); }
+
+    /* LAYERS */
+    .layers-bg { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .layers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .layer-list { display: flex; flex-direction: column; gap: 8px; }
+    .layer-item { display: flex; gap: 16px; padding: 18px 20px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; transition: border-color 0.2s; cursor: default; }
+    .layer-item:hover { border-color: rgba(34,197,94,0.4); }
+    .layer-num { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--accent-lt); background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.2); border-radius: 6px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .layer-text strong { display: block; font-size: 15px; margin-bottom: 3px; }
+    .layer-text span { font-size: 13px; color: var(--text-dim); }
+    .layer-skills { display: flex; flex-direction: column; gap: 16px; }
+    .skill-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; }
+    .skill-block h4 { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+    .skill-block p { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .skill-tag { font-family: var(--mono); font-size: 11px; color: var(--accent-lt); background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); padding: 2px 8px; border-radius: 4px; }
+
+    /* WHO */
+    .who-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .who-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px 24px; transition: border-color 0.2s, transform 0.2s; }
+    .who-card:hover { border-color: rgba(34,197,94,0.4); transform: translateY(-2px); }
+    .who-icon { font-size: 32px; margin-bottom: 14px; }
+    .who-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .who-card p { font-size: 14px; color: var(--text-dim); line-height: 1.65; }
+
+    /* INSTALL */
+    .install-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .install-steps { display: flex; flex-direction: column; gap: 20px; }
+    .install-step { display: flex; gap: 18px; align-items: flex-start; }
+    .step-num { background: var(--accent); color: #052e16; font-family: var(--mono); font-size: 13px; font-weight: 700; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .step-text strong { display: block; font-size: 15px; margin-bottom: 2px; }
+    .step-text span { font-size: 14px; color: var(--text-dim); }
+    .code-block { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .code-bar { background: var(--surface2); padding: 10px 16px; font-family: var(--mono); font-size: 12px; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+    .code-body { padding: 20px; font-family: var(--mono); font-size: 13px; line-height: 2; }
+    .c-comment { color: #4b5563; } .c-dollar { color: var(--accent-lt); } .c-text { color: #86efac; }
+
+    /* NAV STRIP */
+    .nav-strip { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 40px 24px; }
+    .nav-strip-inner { max-width: 1100px; margin: 0 auto; }
+    .nav-strip h3 { font-size: 16px; font-weight: 700; color: var(--text-dim); margin-bottom: 20px; letter-spacing: 1px; }
+    .project-links { display: flex; gap: 16px; flex-wrap: wrap; }
+    .project-link { display: flex; align-items: center; gap: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 20px; transition: border-color 0.2s, transform 0.15s; text-decoration: none; }
+    .project-link:hover { border-color: var(--accent-lt); transform: translateY(-1px); text-decoration: none; }
+    .project-link-icon { font-size: 22px; }
+    .project-link-text strong { display: block; font-size: 14px; color: var(--text); }
+    .project-link-text span { font-size: 12px; color: var(--text-dim); }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 48px 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-logo { font-family: var(--mono); font-weight: 700; font-size: 15px; color: var(--accent-lt); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { color: var(--text-muted); font-size: 14px; transition: color 0.15s; }
+    .footer-links a:hover { color: var(--text); text-decoration: none; }
+    .footer-copy { font-size: 13px; color: var(--text-muted); }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .layers-grid, .who-grid, .install-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">spreadsheet-cleaner</span>
+  <ul class="nav-links">
+    <li><a href="#what-you-build">What You Build</a></li>
+    <li><a href="#layers">The Layers</a></li>
+    <li><a href="#who">Who It's For</a></li>
+    <li><a href="#start">Get Started</a></li>
+    <li><a href="https://github.com/michaelnocito/spreadsheet-cleaner" target="_blank">GitHub ↗</a></li>
+  </ul>
+  <a href="https://github.com/michaelnocito/spreadsheet-cleaner" class="nav-cta">View on GitHub →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Beginner Python Project · Learn by Building</div>
+    <h1>Build the tool.<br/><span>Learn the Python.</span></h1>
+    <p class="hero-sub">
+      You will build a real spreadsheet auditing and cleaning tool — step by step,
+      layer by layer. Every line of code explained. No experience needed.
+    </p>
+    <p class="hero-proof">
+      <strong>Real output from day one.</strong> &nbsp;·&nbsp; Guided comments throughout &nbsp;·&nbsp; <strong>Plain-English docs</strong>
+    </p>
+    <div class="btn-group">
+      <a href="https://github.com/michaelnocito/spreadsheet-cleaner" class="btn-primary">Get the Code →</a>
+      <a href="https://github.com/michaelnocito/spreadsheet-cleaner#your-first-working-version" class="btn-secondary">See How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- TERMINAL DEMO -->
+<div style="padding: 0 24px 100px;">
+  <div class="terminal-demo">
+    <div class="terminal-titlebar">
+      <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      <div class="terminal-title">python cleaner.py sample_data/messy_customers.xlsx</div>
+    </div>
+    <div class="terminal-body">
+      <div class="t-dim">──────────────────────────────────────────</div>
+      <div class="t-white">  SPREADSHEET QUALITY REPORT</div>
+      <div class="t-dim">──────────────────────────────────────────</div>
+      <br/>
+      <div class="t-white">  File: messy_customers.xlsx</div>
+      <div class="t-white">  Rows: <span class="t-amber">847</span> &nbsp;·&nbsp; Columns: <span class="t-amber">9</span></div>
+      <br/>
+      <div class="t-green">  ✓  customer_id     — complete (847/847)</div>
+      <div class="t-green">  ✓  email           — complete (847/847)</div>
+      <div class="t-amber">  ⚠  phone_number    — 34 missing (813/847)</div>
+      <div class="t-amber">  ⚠  signup_date     — 12 inconsistent formats</div>
+      <div class="t-red">  ✖  region          — 91 missing (756/847)</div>
+      <div class="t-amber">  ⚠  duplicate rows  — 6 found</div>
+      <br/>
+      <div class="t-dim">──────────────────────────────────────────</div>
+      <div class="t-white">  Overall quality score: <span class="t-amber">74%</span></div>
+      <div class="t-white">  Issues found: <span class="t-red">143 cells</span> need attention</div>
+      <div class="t-dim">──────────────────────────────────────────</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT YOU BUILD -->
+<section class="layers-bg" id="what-you-build">
+  <div class="section-inner">
+    <div class="layers-grid">
+      <div>
+        <div class="section-label">What You Build</div>
+        <h2>A real tool.<br/>Layer by layer.</h2>
+        <p class="section-sub">Each layer builds on the last. Each one gives you a working result you can run and show someone. You never write code that doesn't do something.</p>
+        <div class="layer-list" id="layers">
+          <div class="layer-item">
+            <div class="layer-num">01</div>
+            <div class="layer-text">
+              <strong>Basic — Quality Report</strong>
+              <span>Read a spreadsheet. Print a plain-English audit: missing cells, row counts, column names. Your first working version.</span>
+            </div>
+          </div>
+          <div class="layer-item">
+            <div class="layer-num">02</div>
+            <div class="layer-text">
+              <strong>Cleaning — Fix the Data</strong>
+              <span>Trim whitespace. Standardize date formats. Flag duplicates. Write the clean version to a new file. The tool now does work.</span>
+            </div>
+          </div>
+          <div class="layer-item">
+            <div class="layer-num">03</div>
+            <div class="layer-text">
+              <strong>Logging — Track What Changed</strong>
+              <span>Every change gets logged with a timestamp. Run the tool twice — the log tells you exactly what happened each time.</span>
+            </div>
+          </div>
+          <div class="layer-item">
+            <div class="layer-num">04</div>
+            <div class="layer-text">
+              <strong>App — Desktop Interface</strong>
+              <span>Wrap everything in a simple desktop window. File picker, run button, status output. A real app you built yourself.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layer-skills">
+        <div class="skill-block">
+          <h4>Python Skills You'll Use</h4>
+          <p>Every concept is introduced when you need it — not before.</p>
+          <div class="skill-tags">
+            <span class="skill-tag">pandas</span>
+            <span class="skill-tag">openpyxl</span>
+            <span class="skill-tag">pathlib</span>
+            <span class="skill-tag">logging</span>
+            <span class="skill-tag">tkinter</span>
+            <span class="skill-tag">datetime</span>
+            <span class="skill-tag">functions</span>
+            <span class="skill-tag">file I/O</span>
+            <span class="skill-tag">error handling</span>
+            <span class="skill-tag">data types</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <h4>What You Walk Away With</h4>
+          <p>A working Python project written by you, that you can explain, run, and extend. Something concrete to show on a resume or in an interview.</p>
+        </div>
+        <div class="skill-block">
+          <h4>Data Skills You'll Practice</h4>
+          <p>Missing value detection, duplicate identification, format standardization, data quality scoring — the same work real analysts do every day.</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Data Quality</span>
+            <span class="skill-tag">Cleaning</span>
+            <span class="skill-tag">Audit Trails</span>
+            <span class="skill-tag">Standardization</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section id="who">
+  <div class="section-inner">
+    <div class="section-label">Who It's For</div>
+    <h2>You don't need experience.<br/>You need a project.</h2>
+    <p class="section-sub">The best way to learn Python is to build something real. This is that something.</p>
+    <div class="who-grid">
+      <div class="who-card">
+        <div class="who-icon">📊</div>
+        <h3>Excel Users Learning Python</h3>
+        <p>You already know what "clean data" means. You've done it in Excel. This project takes that knowledge and translates it into code you write and own.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🎓</div>
+        <h3>Students & Bootcamp Grads</h3>
+        <p>You've done tutorials. You know the syntax. But building something from scratch — with a real use case and real output — is different. This bridges that gap.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">💼</div>
+        <h3>Analysts Who Want to Code</h3>
+        <p>Your job involves cleaning spreadsheets. Imagine automating it. This project builds the tool that does exactly that — in the language employers want to see.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GET STARTED -->
+<section id="start" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-inner">
+    <div class="install-grid">
+      <div>
+        <div class="section-label">Get Started</div>
+        <h2>Start in five minutes.</h2>
+        <p class="section-sub">Python 3.8+ and two packages. The repo does the rest.</p>
+        <div class="install-steps">
+          <div class="install-step">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <strong>Clone the repo</strong>
+              <span>Or download the ZIP directly from GitHub</span>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <strong>Install the requirements</strong>
+              <span>pip install -r requirements.txt — pandas and openpyxl</span>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <strong>Run it on the sample data</strong>
+              <span>python basic/cleaner.py sample_data/messy_customers.xlsx</span>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-num">4</div>
+            <div class="step-text">
+              <strong>Read the code, change something, run it again</strong>
+              <span>Every file has guided comments. That's how you learn.</span>
+            </div>
+          </div>
+          <div style="margin-top: 8px;">
+            <a href="https://github.com/michaelnocito/spreadsheet-cleaner" class="btn-primary" style="display:inline-flex;">Get the Code on GitHub →</a>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-bar">terminal</div>
+        <div class="code-body">
+          <div><span class="c-comment"># clone</span></div>
+          <div><span class="c-dollar">$ </span><span class="c-text">git clone https://github.com/michaelnocito/spreadsheet-cleaner</span></div>
+          <div><span class="c-dollar">$ </span><span class="c-text">cd spreadsheet-cleaner</span></div>
+          <br/>
+          <div><span class="c-comment"># install</span></div>
+          <div><span class="c-dollar">$ </span><span class="c-text">pip install -r requirements.txt</span></div>
+          <br/>
+          <div><span class="c-comment"># run on sample data</span></div>
+          <div><span class="c-dollar">$ </span><span class="c-text">python basic/cleaner.py \</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-text">sample_data/messy_customers.xlsx</span></div>
+          <br/>
+          <div style="color: #4ade80;">✔  Quality report printed. You built that.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER PROJECTS -->
+<div class="nav-strip">
+  <div class="nav-strip-inner">
+    <h3>MORE FROM MICHAEL NOCITO</h3>
+    <div class="project-links">
+      <a href="https://michaelnocito.github.io/nexus-sql-mystery/" class="project-link">
+        <div class="project-link-icon">🕵️</div>
+        <div class="project-link-text">
+          <strong>NEXUS — SQL Mystery Game</strong>
+          <span>Learn SQL by solving a $1.87M corporate fraud case. Free.</span>
+        </div>
+      </a>
+      <a href="https://michaelnocito.github.io/recordforge/" class="project-link">
+        <div class="project-link-icon">🗂️</div>
+        <div class="project-link-text">
+          <strong>RecordForge</strong>
+          <span>Generate fictional test files — PDFs, Word, Excel, HTML.</span>
+        </div>
+      </a>
+      <a href="https://www.linkedin.com/in/michaelnocito" target="_blank" class="project-link">
+        <div class="project-link-icon">💼</div>
+        <div class="project-link-text">
+          <strong>LinkedIn</strong>
+          <span>Data analyst · 8 years enterprise implementation</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">spreadsheet-cleaner</div>
+  <ul class="footer-links">
+    <li><a href="https://github.com/michaelnocito/spreadsheet-cleaner" target="_blank">GitHub</a></li>
+    <li><a href="https://github.com/michaelnocito/spreadsheet-cleaner/blob/main/CONTRIBUTING.md" target="_blank">Contributing</a></li>
+    <li><a href="https://www.linkedin.com/in/michaelnocito" target="_blank">LinkedIn</a></li>
+    <li><a href="https://buymeacoffee.com/michaelnocito" target="_blank">Buy Me a Coffee ☕</a></li>
+  </ul>
+  <div class="footer-copy">Free & open source · MIT License</div>
+</footer>
+
+</body>
+</html>
