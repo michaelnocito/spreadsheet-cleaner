@@ -2,7 +2,9 @@
 
 ### Build the tool. Learn the Python. Own the project.
 
-A Python learning project by Michael Nocito.
+A Python learning project by [Michael Nocito](https://www.linkedin.com/in/michaelnocito).
+
+**[🌐 spreadsheet-cleaner website](https://michaelnocito.github.io/spreadsheet-cleaner/)** &nbsp;·&nbsp; [GitHub](https://github.com/michaelnocito/spreadsheet-cleaner)
 
 You will build it. You will learn Python. You will finish with a real
 project written by you — code you can read, run, change, and explain.
@@ -306,18 +308,18 @@ complete Python project that shows real data-cleaning workflow skills
 
 ---
 
-## More Tools
+## More from Michael Nocito
 
-**[NEXUS — Learn SQL by Solving a Mystery](https://github.com/michaelnocito/nexus-sql-mystery)** —
-A narrative-driven game where you learn SQL by investigating corporate fraud.
-If you're learning Python with Spreadsheet Cleaner, NEXUS is the natural next step
-for picking up SQL. Includes a free
-**[SQL Foundations Guide](https://github.com/michaelnocito/nexus-sql-mystery/blob/master/docs/sql-foundations.md)**
-with examples and exercises.
+**[🕵️ NEXUS — Learn SQL by Solving a Mystery](https://michaelnocito.github.io/nexus-sql-mystery/)** —
+A free game where you learn SQL by investigating $1.87M in corporate fraud. The natural next step
+after Spreadsheet Cleaner — same analytical mindset, now applied to SQL.
+Also includes a free **[SQL Foundations Guide](https://michaelnocito.github.io/nexus-sql-mystery/sql-foundations)** with examples and exercises.
 
-**[RecordForge](https://github.com/michaelnocito/recordforge)** —
-Generate fictional PDFs, Word docs, HTML files, and Excel datasets for testing, QA, and demos.
-Free Windows app, no Python required. The Messy Data output pairs directly with this cleaner.
+**[🗂️ RecordForge](https://michaelnocito.github.io/recordforge/)** —
+Generate fictional PDFs, Word docs, Excel datasets, and HTML files for testing and demos.
+Free Windows app, no Python required. The **Messy Data** output pairs directly with this cleaner.
+
+**[LinkedIn](https://www.linkedin.com/in/michaelnocito)** — data analyst · 8 years enterprise implementation
 
 ---
 
