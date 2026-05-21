@@ -315,6 +315,10 @@ A free game where you learn SQL by investigating $1.87M in corporate fraud. The 
 after Spreadsheet Cleaner — same analytical mindset, now applied to SQL.
 Also includes a free **[SQL Foundations Guide](https://michaelnocito.github.io/nexus-sql-mystery/sql-foundations)** with examples and exercises.
 
+**[📊 SQL Prep Kit](https://michaelnocito.github.io/sql-prep-kit/)** —
+Learn SQL for analyst interviews by reading every query out loud, line by line.
+Browser-based, real SQLite, honest readiness score. No install.
+
 **[🗂️ RecordForge](https://michaelnocito.github.io/recordforge/)** —
 Generate fictional PDFs, Word docs, Excel datasets, and HTML files for testing and demos.
 Free Windows app, no Python required. The **Messy Data** output pairs directly with this cleaner.
