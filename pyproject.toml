@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spreadsheet-cleaner"
+version = "0.1.0"
+description = "The offline workbench for pre-migration data quality: profile, clean, and validate messy spreadsheets and export a defensible quality report. No cloud, no upload."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Michael Nocito", email = "hello.michaelnocito@gmail.com" }]
+keywords = [
+    "data-quality",
+    "data-migration",
+    "spreadsheet",
+    "csv",
+    "excel",
+    "data-profiling",
+    "data-validation",
+    "etl",
+    "data-cleaning",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Office/Business",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "pandas>=2.0",
+    "openpyxl>=3.1",
+    "python-dateutil>=2.8",
+    "typer>=0.9",
+]
+
+[project.optional-dependencies]
+gui = ["pywebview>=4.0"]
+dev = ["pytest>=7.0"]
+
+[project.scripts]
+spreadsheet-cleaner = "spreadsheet_cleaner.cli:app"
+
+[project.urls]
+Homepage = "https://michaelnocito.github.io/spreadsheet-cleaner/"
+Repository = "https://github.com/michaelnocito/spreadsheet-cleaner"
+
+[tool.setuptools.packages.find]
+include = ["spreadsheet_cleaner*"]

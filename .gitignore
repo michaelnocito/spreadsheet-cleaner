@@ -34,3 +34,13 @@ desktop.ini
 
 # Generated sample output (keep the generator, not the output)
 sample_data/example_messy_dates.xlsx
+sample_data/messy_employees.csv
+sample_data/messy_employees.xlsx
+
+# Generated quality reports
+*_quality_report.html
+*_quality_report.md
+*_quality_report.json
+
+# pytest
+.pytest_cache/
