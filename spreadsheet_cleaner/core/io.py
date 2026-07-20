@@ -28,7 +28,7 @@ class LoadError(Exception):
 class LoadedTable:
     frame: pd.DataFrame
     source: Path
-    sheet: str | None
+    sheet: str | None = None
     sheet_names: list[str] = field(default_factory=list)
     blank_rows_ignored: int = 0
 

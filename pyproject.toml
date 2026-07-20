@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spreadsheet-cleaner"
-version = "0.1.0"
+version = "0.2.0"
 description = "The offline workbench for pre-migration data quality: profile, clean, and validate messy spreadsheets and export a defensible quality report. No cloud, no upload."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -35,6 +35,7 @@ dependencies = [
     "openpyxl>=3.1",
     "python-dateutil>=2.8",
     "typer>=0.9",
+    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]

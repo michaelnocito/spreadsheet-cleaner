@@ -8,11 +8,13 @@ from pathlib import Path
 
 import pytest
 
-from spreadsheet_cleaner import __version__, profile
+from spreadsheet_cleaner import __version__, clean, profile
+from spreadsheet_cleaner.clean import clean_file, default_recipe, load_recipe, save_recipe, write_clean
 from spreadsheet_cleaner.core import types
 from spreadsheet_cleaner.core.io import LoadError, load
 from spreadsheet_cleaner.core.models import Dimension, Severity
 from spreadsheet_cleaner.report import render, to_dict, write
+from spreadsheet_cleaner.report.clean_report import to_html as clean_to_html
 
 # A small table that intentionally trips every dimension.
 MESSY_ROWS = [
@@ -127,3 +129,80 @@ def test_write_creates_files(messy_csv: Path, tmp_path: Path):
     assert len(written) == 3
     for path in written:
         assert path.exists() and path.stat().st_size > 0
+
+
+# ---- cleaning engine ---------------------------------------------------------
+
+def test_default_clean_improves_the_grade(messy_csv: Path):
+    result = clean(messy_csv)
+    before = profile(messy_csv)
+    from spreadsheet_cleaner.core.io import LoadedTable, load as _load
+    from spreadsheet_cleaner.profiling import profile_table
+    after = profile_table(LoadedTable(frame=result.frame, source=_load(messy_csv).source))
+    assert after.score >= before.score
+    assert not result.changelog.is_empty
+
+
+def test_clean_normalizes_dates_to_iso(messy_csv: Path):
+    result = clean(messy_csv)
+    start = result.frame["start_date"]
+    parsed = [v for v in start if v and types.parse_date(v)]
+    # every parseable date now matches the ISO target format
+    assert all(len(v) == 10 and v[4] == "-" and v[7] == "-" for v in parsed)
+
+
+def test_clean_makes_casing_consistent(messy_csv: Path):
+    # the 'active' column has yes/YES and no/No: after cleaning each casefold
+    # group collapses to a single spelling.
+    result = clean(messy_csv)
+    values = [v for v in result.frame["active"] if v]
+    groups: dict[str, set[str]] = {v.casefold(): set() for v in values}
+    for v in values:
+        groups[v.casefold()].add(v)
+    assert all(len(spellings) == 1 for spellings in groups.values())
+
+
+def test_clean_removes_duplicate_rows(messy_csv: Path):
+    result = clean(messy_csv)
+    assert result.frame.duplicated().sum() == 0
+
+
+def test_clean_is_non_destructive(messy_csv: Path):
+    original = messy_csv.read_bytes()
+    clean(messy_csv)
+    assert messy_csv.read_bytes() == original  # source untouched
+
+
+def test_write_clean_refuses_to_overwrite_source(messy_csv: Path):
+    result = clean(messy_csv)
+    with pytest.raises(ValueError):
+        write_clean(result, messy_csv)
+
+
+def test_recipe_roundtrip_yaml_and_json(messy_csv: Path, tmp_path: Path):
+    before = profile(messy_csv)
+    recipe = default_recipe(before)
+    for name in ("recipe.yml", "recipe.json"):
+        path = tmp_path / name
+        save_recipe(recipe, path)
+        loaded = load_recipe(path)
+        assert [s.type for s in loaded.steps] == [s.type for s in recipe.steps]
+
+
+def test_recipe_driven_clean_writes_files(messy_csv: Path, tmp_path: Path):
+    result = clean(messy_csv)
+    out = write_clean(result, tmp_path / "cleaned.csv")
+    assert out.exists() and out.stat().st_size > 0
+    before = profile(messy_csv)
+    from spreadsheet_cleaner.core.io import LoadedTable
+    after_html = clean_to_html(result, before, before)
+    assert after_html.startswith("<!doctype html>") and "Change log" in after_html
+
+
+def test_unknown_step_raises(messy_csv: Path):
+    from spreadsheet_cleaner.clean.recipe import Recipe, Step
+    from spreadsheet_cleaner.core.io import load as _load
+    from spreadsheet_cleaner.clean import clean_table
+    bad = Recipe(steps=[Step(type="does_not_exist")])
+    with pytest.raises(ValueError):
+        clean_table(_load(messy_csv), recipe=bad)

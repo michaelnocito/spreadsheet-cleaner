@@ -91,6 +91,22 @@ def is_date(value: str) -> bool:
     return date_format_of(value) is not None
 
 
+def parse_date(value: str) -> datetime | None:
+    """Parse a value using the first matching known format, or return None."""
+    v = value.strip()
+    for pattern, _label in DATE_FORMATS:
+        try:
+            return datetime.strptime(v, pattern)
+        except ValueError:
+            continue
+    return None
+
+
+def clean_number(value: str) -> str:
+    """Public wrapper: strip currency, separators, and () negatives."""
+    return _clean_number(value)
+
+
 # Specific types worth flagging violations for, in priority order. Boolean is
 # first so flag columns don't get swallowed by "integer"; categorical/text are
 # resolved separately (no violations flagged for them).
