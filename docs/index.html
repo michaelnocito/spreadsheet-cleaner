@@ -11,10 +11,10 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spreadsheet Cleaner — Build a Real Python Tool. Learn by Doing.</title>
-  <meta name="description" content="A beginner Python project where you build a real spreadsheet auditing and cleaning tool. Guided comments, plain-English docs, no experience needed." />
-  <meta property="og:title" content="Spreadsheet Cleaner — Learn Python by Building Something Real" />
-  <meta property="og:description" content="Build a working data-cleaning tool from scratch. Every line explained. No experience needed." />
+  <title>Spreadsheet Cleaner - Offline Data Quality for Migrations</title>
+  <meta name="description" content="Profile a messy CSV or Excel file and export a defensible, per-dimension data-quality report. Free, open source, fully offline. No cloud, no upload." />
+  <meta property="og:title" content="Spreadsheet Cleaner - The offline workbench for pre-migration data quality" />
+  <meta property="og:description" content="Catch the problems that break an import, and prove it with a signable quality report. Runs on your machine. Nothing uploaded." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://michaelnocito.github.io/spreadsheet-cleaner/" />
 
@@ -237,13 +237,13 @@
     <span class="logo">▦</span>
     <span class="brand-text">
       <strong>Spreadsheet Cleaner</strong>
-      <span class="sub">Learn Python by building a real tool</span>
+      <span class="sub">Offline pre-migration data quality</span>
     </span>
   </div>
   <div class="orient">
     <span class="phase-chip">Free · Open Source</span>
     <ul class="nav-links">
-      <li><a href="#what-you-build">What You Build</a></li>
+      <li><a href="#checks">What It Checks</a></li>
       <li><a href="#who">Who It's For</a></li>
       <li><a href="#start">Get Started</a></li>
     </ul>
@@ -254,18 +254,19 @@
 <!-- HERO -->
 <section class="hero">
   <div class="welcome-card">
-    <div class="hero-eyebrow">Beginner Python Project · Learn by Building</div>
-    <h1>Build the tool.<br/><span>Learn the Python.</span></h1>
+    <div class="hero-eyebrow">Free &amp; Open Source · Runs Fully Offline</div>
+    <h1>Profile the mess.<br/><span>Prove it's clean.</span></h1>
     <p class="hero-sub">
-      You will build a real spreadsheet auditing and cleaning tool — step by step,
-      layer by layer. Every line of code explained. No experience needed.
+      Point Spreadsheet Cleaner at a messy CSV or Excel file. Get a per-dimension
+      data-quality report you can hand to your client before the migration runs.
+      Everything happens on your machine. Nothing is uploaded.
     </p>
     <p class="hero-proof">
-      <strong>Real output from day one.</strong> &nbsp;·&nbsp; Guided comments throughout &nbsp;·&nbsp; <strong>Plain-English docs</strong>
+      <strong>Fully offline</strong> &nbsp;·&nbsp; No cloud, no account &nbsp;·&nbsp; <strong>A report you can sign off</strong>
     </p>
     <div class="btn-group">
-      <a href="https://github.com/michaelnocito/spreadsheet-cleaner" class="btn-primary">Get the Code →</a>
-      <a href="https://github.com/michaelnocito/spreadsheet-cleaner#your-first-working-version" class="btn-secondary">See How It Works</a>
+      <a href="https://github.com/michaelnocito/spreadsheet-cleaner" class="btn-primary">Get It on GitHub →</a>
+      <a href="#checks" class="btn-secondary">What It Checks</a>
     </div>
   </div>
 </section>
@@ -275,103 +276,64 @@
   <div class="terminal-demo">
     <div class="terminal-titlebar">
       <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
-      <div class="terminal-title">python cleaner.py sample_data/messy_customers.xlsx</div>
+      <div class="terminal-title">spreadsheet-cleaner profile clients.xlsx</div>
     </div>
     <div class="terminal-body">
-      <div class="t-dim">──────────────────────────────────────────</div>
-      <div class="t-white">  SPREADSHEET QUALITY REPORT</div>
-      <div class="t-dim">──────────────────────────────────────────</div>
+      <div class="t-amber">  clients.xlsx  -  grade B (86/100)</div>
+      <div class="t-white">  11 rows x 8 columns</div>
+      <div class="t-white">  <span class="t-red">5 error(s)</span>, <span class="t-amber">9 warning(s)</span></div>
       <br/>
-      <div class="t-white">  File: messy_customers.xlsx</div>
-      <div class="t-white">  Rows: <span class="t-amber">847</span> &nbsp;·&nbsp; Columns: <span class="t-amber">9</span></div>
+      <div class="t-white">    Completeness  <span class="t-green">#################</span><span class="t-dim">---</span>    83</div>
+      <div class="t-white">    Validity      <span class="t-green">###################</span><span class="t-dim">-</span>    93</div>
+      <div class="t-white">    Conformity    <span class="t-green">##################</span><span class="t-dim">--</span>    89</div>
+      <div class="t-white">    Consistency   <span class="t-amber">############</span><span class="t-dim">--------</span>    61</div>
+      <div class="t-white">    Uniqueness    <span class="t-green">###################</span><span class="t-dim">-</span>    97</div>
+      <div class="t-white">    Structure     <span class="t-green">##################</span><span class="t-dim">--</span>    90</div>
       <br/>
-      <div class="t-green">  ✓  customer_id     — complete (847/847)</div>
-      <div class="t-green">  ✓  email           — complete (847/847)</div>
-      <div class="t-amber">  ⚠  phone_number    — 34 missing (813/847)</div>
-      <div class="t-amber">  ⚠  signup_date     — 12 inconsistent formats</div>
-      <div class="t-red">  ✖  region          — 91 missing (756/847)</div>
-      <div class="t-amber">  ⚠  duplicate rows  — 6 found</div>
-      <br/>
-      <div class="t-dim">──────────────────────────────────────────</div>
-      <div class="t-white">  Overall quality score: <span class="t-amber">74%</span></div>
-      <div class="t-white">  Issues found: <span class="t-red">143 cells</span> need attention</div>
-      <div class="t-dim">──────────────────────────────────────────</div>
+      <div class="t-dim">  wrote clients_quality_report.html</div>
     </div>
   </div>
 </div>
 
-<!-- WHAT YOU BUILD -->
-<section class="layers-bg" id="what-you-build">
+<!-- WHAT IT CHECKS -->
+<section class="layers-bg" id="checks">
   <div class="section-inner">
-    <div class="layers-grid">
-      <div>
-        <div class="section-label">What You Build</div>
-        <h2>A real tool. Layer by layer.</h2>
-        <p class="section-sub">Each layer builds on the last. Each one gives you a working result you can run and show someone. You never write code that doesn't do something.</p>
-        <div class="layer-list">
-          <div class="layer-item">
-            <div class="layer-num">01</div>
-            <div class="layer-text">
-              <strong>Basic — Quality Report</strong>
-              <span>Read a spreadsheet. Print a plain-English audit: missing cells, row counts, column names. Your first working version.</span>
-            </div>
-          </div>
-          <div class="layer-item">
-            <div class="layer-num">02</div>
-            <div class="layer-text">
-              <strong>Cleaning — Fix the Data</strong>
-              <span>Trim whitespace. Standardize date formats. Flag duplicates. Write the clean version to a new file. The tool now does work.</span>
-            </div>
-          </div>
-          <div class="layer-item">
-            <div class="layer-num">03</div>
-            <div class="layer-text">
-              <strong>Logging — Track What Changed</strong>
-              <span>Every change gets logged with a timestamp. Run the tool twice — the log tells you exactly what happened each time.</span>
-            </div>
-          </div>
-          <div class="layer-item">
-            <div class="layer-num">04</div>
-            <div class="layer-text">
-              <strong>App — Desktop Interface</strong>
-              <span>Wrap everything in a simple desktop window. File picker, run button, status output. A real app you built yourself.</span>
-            </div>
-          </div>
-        </div>
+    <div class="section-label">What It Checks</div>
+    <h2>Six dimensions of data quality.</h2>
+    <p class="section-sub">Every finding maps to a recognized data-quality dimension (DAMA-UK / DMBOK), so the report reads as a standard scorecard, not a pile of ad-hoc warnings.</p>
+    <div class="who-grid">
+      <div class="who-card">
+        <div class="who-icon">🧩</div>
+        <h3>Completeness</h3>
+        <p>Missing required values, and placeholder text like <code>N/A</code> or <code>-</code> that really means blank.</p>
       </div>
-      <div class="layer-skills">
-        <div class="skill-block">
-          <h4>Python Skills You'll Use</h4>
-          <p>Every concept is introduced when you need it — not before.</p>
-          <div class="skill-tags">
-            <span class="skill-tag">pandas</span>
-            <span class="skill-tag">openpyxl</span>
-            <span class="skill-tag">pathlib</span>
-            <span class="skill-tag">logging</span>
-            <span class="skill-tag">tkinter</span>
-            <span class="skill-tag">datetime</span>
-            <span class="skill-tag">functions</span>
-            <span class="skill-tag">file I/O</span>
-            <span class="skill-tag">error handling</span>
-            <span class="skill-tag">data types</span>
-          </div>
-        </div>
-        <div class="skill-block">
-          <h4>What You Walk Away With</h4>
-          <p>A working Python project written by you, that you can explain, run, and extend. Something concrete to show on a resume or in an interview.</p>
-        </div>
-        <div class="skill-block">
-          <h4>Data Skills You'll Practice</h4>
-          <p>Missing value detection, duplicate identification, format standardization, data quality scoring — the same work real analysts do every day.</p>
-          <div class="skill-tags">
-            <span class="skill-tag">Data Quality</span>
-            <span class="skill-tag">Cleaning</span>
-            <span class="skill-tag">Audit Trails</span>
-            <span class="skill-tag">Standardization</span>
-          </div>
-        </div>
+      <div class="who-card">
+        <div class="who-icon">🔤</div>
+        <h3>Validity</h3>
+        <p>Values that don't match the column's intended type: a word in a number column, a broken date.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">📅</div>
+        <h3>Conformity</h3>
+        <p>Format drift: several date formats in one column, and stray or doubled whitespace.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🔁</div>
+        <h3>Consistency</h3>
+        <p>The same value spelled and cased more than one way: Active / active / ACTIVE.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🔑</div>
+        <h3>Uniqueness</h3>
+        <p>Duplicate rows, and duplicate values in a column that's supposed to be a primary key.</p>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🧱</div>
+        <h3>Structure</h3>
+        <p>Blank rows, completely empty columns, and unlabeled headers that break a load.</p>
       </div>
     </div>
+    <p class="section-sub" style="margin-top:28px">It also infers each column's type, reports fill rate and distinct counts, flags primary-key candidates, and exports the whole audit as a self-contained HTML file, plus Markdown and JSON for your pipeline.</p>
   </div>
 </section>
 
@@ -379,23 +341,23 @@
 <section id="who">
   <div class="section-inner">
     <div class="section-label">Who It's For</div>
-    <h2>You don't need experience. You need a project.</h2>
-    <p class="section-sub">The best way to learn Python is to build something real. This is that something.</p>
+    <h2>Anyone who has to trust a spreadsheet before it moves.</h2>
+    <p class="section-sub">Especially when the file holds real client data that can't be uploaded to a cloud tool.</p>
     <div class="who-grid">
       <div class="who-card">
+        <div class="who-icon">🚚</div>
+        <h3>Data Migration Analysts</h3>
+        <p>Profile and vet source data, catch what would break the load, and hand the client a signed-off quality report before you migrate.</p>
+      </div>
+      <div class="who-card">
         <div class="who-icon">📊</div>
-        <h3>Excel Users Learning Python</h3>
-        <p>You already know what "clean data" means. You've done it in Excel. This project takes that knowledge and translates it into code you write and own.</p>
+        <h3>Data &amp; Business Analysts</h3>
+        <p>Understand and clean an inherited spreadsheet, without spinning up a data-engineering stack or a warehouse.</p>
       </div>
       <div class="who-card">
-        <div class="who-icon">🎓</div>
-        <h3>Students &amp; Bootcamp Grads</h3>
-        <p>You've done tutorials. You know the syntax. But building something from scratch — with a real use case and real output — is different. This bridges that gap.</p>
-      </div>
-      <div class="who-card">
-        <div class="who-icon">💼</div>
-        <h3>Analysts Who Want to Code</h3>
-        <p>Your job involves cleaning spreadsheets. Imagine automating it. This project builds the tool that does exactly that — in the language employers want to see.</p>
+        <div class="who-icon">🛠️</div>
+        <h3>Data Quality &amp; ETL Engineers</h3>
+        <p>A fast, offline first pass on ad-hoc files that don't justify a full pipeline, with a CI-friendly exit code.</p>
       </div>
     </div>
   </div>
@@ -407,57 +369,55 @@
     <div class="install-grid">
       <div>
         <div class="section-label">Get Started</div>
-        <h2>Start in five minutes.</h2>
-        <p class="section-sub">Python 3.8+ and two packages. The repo does the rest.</p>
+        <h2>Profile a file in two commands.</h2>
+        <p class="section-sub">Python 3.10+. Install from source today; a PyPI package is coming.</p>
         <div class="install-steps">
           <div class="install-step">
             <div class="step-num">1</div>
             <div class="step-text">
-              <strong>Clone the repo</strong>
-              <span>Or download the ZIP directly from GitHub</span>
+              <strong>Install it</strong>
+              <span>Clone the repo and run pip install -e . to get the command.</span>
             </div>
           </div>
           <div class="install-step">
             <div class="step-num">2</div>
             <div class="step-text">
-              <strong>Install the requirements</strong>
-              <span>pip install -r requirements.txt — pandas and openpyxl</span>
+              <strong>Point it at a file</strong>
+              <span>spreadsheet-cleaner profile yourfile.xlsx --open</span>
             </div>
           </div>
           <div class="install-step">
             <div class="step-num">3</div>
             <div class="step-text">
-              <strong>Run it on the sample data</strong>
-              <span>python basic/cleaner.py sample_data/messy_customers.xlsx</span>
+              <strong>Read the scorecard, open the report</strong>
+              <span>A grade in the terminal; a self-contained HTML report on disk.</span>
             </div>
           </div>
           <div class="install-step">
             <div class="step-num">4</div>
             <div class="step-text">
-              <strong>Read the code, change something, run it again</strong>
-              <span>Every file has guided comments. That's how you learn.</span>
+              <strong>Hand it over</strong>
+              <span>Send the report as the sign-off artifact. Nothing was uploaded.</span>
             </div>
           </div>
           <div style="margin-top: 8px;">
-            <a href="https://github.com/michaelnocito/spreadsheet-cleaner" class="btn-primary" style="display:inline-flex;">Get the Code on GitHub →</a>
+            <a href="https://github.com/michaelnocito/spreadsheet-cleaner" class="btn-primary" style="display:inline-flex;">Get It on GitHub →</a>
           </div>
         </div>
       </div>
       <div class="code-block">
         <div class="code-bar">terminal</div>
         <div class="code-body">
-          <div><span class="c-comment"># clone</span></div>
+          <div><span class="c-comment"># install from source</span></div>
           <div><span class="c-dollar">$ </span><span class="c-text">git clone https://github.com/michaelnocito/spreadsheet-cleaner</span></div>
-          <div><span class="c-dollar">$ </span><span class="c-text">cd spreadsheet-cleaner</span></div>
+          <div><span class="c-dollar">$ </span><span class="c-text">cd spreadsheet-cleaner &amp;&amp; pip install -e .</span></div>
           <br/>
-          <div><span class="c-comment"># install</span></div>
-          <div><span class="c-dollar">$ </span><span class="c-text">pip install -r requirements.txt</span></div>
+          <div><span class="c-comment"># make a messy sample, then profile it</span></div>
+          <div><span class="c-dollar">$ </span><span class="c-text">python sample_data/create_sample.py</span></div>
+          <div><span class="c-dollar">$ </span><span class="c-text">spreadsheet-cleaner profile \</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-text">sample_data/messy_employees.xlsx --open</span></div>
           <br/>
-          <div><span class="c-comment"># run on sample data</span></div>
-          <div><span class="c-dollar">$ </span><span class="c-text">python basic/cleaner.py \</span></div>
-          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-text">sample_data/messy_customers.xlsx</span></div>
-          <br/>
-          <div style="color: #57d977;">✔  Quality report printed. You built that.</div>
+          <div style="color: #57d977;">✔  Quality report written. Open it, sign it, ship it.</div>
         </div>
       </div>
     </div>
@@ -472,14 +432,14 @@
       <a href="https://michaelnocito.github.io/" class="project-link">
         <div class="project-link-icon">🏠</div>
         <div class="project-link-text">
-          <strong>← Michael Nocito — Home</strong>
+          <strong>← Michael Nocito · Home</strong>
           <span>Back to the main page and all projects.</span>
         </div>
       </a>
       <a href="https://michaelnocito.github.io/nexus-sql-mystery/" class="project-link">
         <div class="project-link-icon">🕵️</div>
         <div class="project-link-text">
-          <strong>NEXUS — SQL Mystery Game</strong>
+          <strong>NEXUS · SQL Mystery Game</strong>
           <span>Learn SQL by solving a $1.87M corporate fraud case. Free.</span>
         </div>
       </a>
@@ -487,7 +447,7 @@
         <div class="project-link-icon">🗂️</div>
         <div class="project-link-text">
           <strong>RecordForge</strong>
-          <span>Generate fictional test files — PDFs, Word, Excel, HTML.</span>
+          <span>Generate realistic messy test data. The mirror image of this tool.</span>
         </div>
       </a>
       <a href="https://www.linkedin.com/in/michaelnocito" target="_blank" class="project-link">
