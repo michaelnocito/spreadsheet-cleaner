@@ -96,6 +96,42 @@ spreadsheet-cleaner profile sample_data/messy_employees.xlsx --open
 
 ---
 
+## Clean it
+
+Profiling tells you what's wrong; `clean` fixes it, **non-destructively**. With no
+recipe it builds a safe one from the profile: trim whitespace, standardize dates
+to ISO, strip currency and thousands separators, make casing consistent, remove
+exact duplicate rows, and drop empty columns.
+
+```bash
+spreadsheet-cleaner clean messy_employees.xlsx --save-recipe recipe.yml --open
+```
+
+```
+  messy_employees.xlsx  -  cleaned
+  grade B (86) -> A (98)
+  19 cell change(s); 0 row(s), 1 column(s) removed
+```
+
+Your source file is never touched. You get a `*_cleaned` copy, a **cleaning
+report** with before/after grades and a full change log, and the recipe as a
+small YAML/JSON file you can commit and re-run on the next delivery:
+
+```bash
+spreadsheet-cleaner clean next_delivery.xlsx --recipe recipe.yml
+```
+
+Use `--dry-run` to preview the changes without writing anything. From Python:
+
+```python
+from spreadsheet_cleaner import clean, write_clean
+result = clean("messy_employees.xlsx")   # or clean(path, recipe=my_recipe)
+write_clean(result, "cleaned.csv")
+print(result.changelog.total_changes)
+```
+
+---
+
 ## What it checks
 
 | Dimension | What it looks for |

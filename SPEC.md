@@ -10,7 +10,12 @@ and (Phase E) a desktop app.
 
 **Phase B (shipped, v0.1.0):** the profiling engine, robust ingest, type
 inference, the data-quality checks, and the HTML / Markdown / JSON report, plus
-the CLI and Python API. No cleaning or target validation yet.
+the CLI and Python API.
+
+**Phase C (shipped, v0.2.0):** the cleaning engine - deterministic a-la-carte
+steps, a change log, recipe files (YAML/JSON), a smart default recipe built from
+the profile, non-destructive output, a before/after cleaning report, and the
+`clean` CLI command / `clean()` API. No target validation yet (Phase D).
 
 ---
 
@@ -41,17 +46,22 @@ spreadsheet_cleaner/
 │   ├── __init__.py        # profile_table(), profile_file() - orchestrators
 │   ├── columns.py         # profile_column() - per-column stats
 │   └── checks.py          # run_checks() - dimension checks → Issues + stats
+├── clean/
+│   ├── __init__.py        # clean_table/clean_file/write_clean, CleanResult
+│   ├── steps.py           # the cleaning transforms + STEP_REGISTRY
+│   ├── recipe.py          # Recipe/Step, load/save YAML+JSON, default_recipe()
+│   └── changelog.py       # ChangeLog, ChangeRecord
 └── report/
     ├── __init__.py        # render(), write() dispatch
-    ├── html.py            # self-contained Zinc & Sky HTML report (no CDN)
-    ├── markdown.py        # Markdown report
-    └── json_report.py     # machine-readable JSON report
+    ├── html.py            # self-contained Zinc & Sky quality report (no CDN)
+    ├── markdown.py        # Markdown quality report
+    ├── json_report.py     # machine-readable JSON report
+    └── clean_report.py    # before/after + change-log report (HTML/Markdown)
 ```
 
 Planned (later phases, not yet built):
 
 ```
-├── clean/                 # Phase C: steps.py, recipe.py, changelog.py
 ├── validate/              # Phase D: rules.py, mapping.py, reconcile.py
 └── ui/                    # Phase E: app.py (pywebview bridge) + ui.html
 ```

@@ -76,16 +76,21 @@ and code, or a BI visualization tool. It is a lightweight, offline workbench.
 - **CLI** (`spreadsheet-cleaner profile`) with a CI-friendly exit code, and a
   **Python API** (`from spreadsheet_cleaner import profile`).
 
-### Next: the cleaning engine
-- **A-la-carte cleaning steps** - trim whitespace, normalize case, parse dates to
-  a single target format, coerce numbers and currency, standardize categoricals,
-  and remove exact duplicates.
-- **Change log** - every edit recorded before and after with per-column counts;
-  cleaned output written as a copy, source untouched.
+**Phase C - The cleaning engine (v0.2.0)**
+- **A-la-carte cleaning steps** - trim whitespace, standardize casing and
+  spelling, parse dates to one target format, strip currency and thousands
+  separators, map values, fill blanks, remove exact duplicate rows, and drop
+  empty columns.
+- **Smart default recipe** - `clean` with no recipe builds a safe one from the
+  profile; or write your own.
+- **Change log** - every edit is recorded before and after with counts and
+  samples; the cleaned output is a copy and the source is never touched.
 - **Recipe files** (YAML/JSON) - an ordered, deterministic pipeline you save,
   commit, and re-run on the next delivery.
+- **Cleaning report** with before/after grades, plus the `clean` CLI command and
+  a `clean()` Python API.
 
-### Then: migration validation
+### Next: migration validation
 - **Validation rules** - required, unique/primary-key, allowed values, regex, and
   range, each mapped to a data-quality dimension.
 - **Source-to-target mapping** - map columns to target fields with type, length,
