@@ -132,6 +132,57 @@ print(result.changelog.total_changes)
 
 ---
 
+## Validate it: will it load?
+
+Cleaning fixes the format problems; `validate` answers the migration question.
+Describe the **target system's contract** in a small schema file - field names,
+source-column mapping, types, required/unique flags, lengths, allowed values,
+patterns, ranges, and lookups against reference files - then run the file
+against it:
+
+```bash
+spreadsheet-cleaner init-schema clients.xlsx          # drafts a schema to edit
+spreadsheet-cleaner validate clients.xlsx --schema clients_target.yml --open
+```
+
+```
+  clients.xlsx vs target 'HR System - Employees'  -  FAIL (92/100)
+  9 error(s), 0 warning(s)
+
+    employee_id   <- employee_id   1 error(s)     # duplicate key
+    department    <- department    2 error(s)     # value not in lookup file
+    email         <- email         2 error(s)     # blank + malformed
+```
+
+Every rule maps to a data-quality dimension (including **integrity** for
+lookups), the verdict is a hard PASS/FAIL, and the exit code is non-zero on
+failure so a load pipeline can gate on it. The report also scans for
+**near-duplicate rows** - the same record re-entered with a typo - which exact
+dedupe cannot catch.
+
+The loop in practice: `validate` the raw file (fails), `clean` it, `validate`
+the cleaned copy. What remains is the list of genuine data problems that need a
+human or the source system, with proof.
+
+### Reconcile it
+
+Before sign-off, prove nothing was lost or invented between source and
+load-ready file - row counts, key coverage both directions, and control totals:
+
+```bash
+spreadsheet-cleaner reconcile clients.xlsx clients_cleaned.xlsx --key client_id --totals amount
+```
+
+```
+  rows: 11 -> 11  (match)
+  keys [client_id]: all present in both files
+  total [amount]: 776000 -> 776000  (match)
+
+  RECONCILED
+```
+
+---
+
 ## What it checks
 
 | Dimension | What it looks for |

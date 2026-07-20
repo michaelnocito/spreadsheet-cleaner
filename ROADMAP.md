@@ -90,16 +90,21 @@ and code, or a BI visualization tool. It is a lightweight, offline workbench.
 - **Cleaning report** with before/after grades, plus the `clean` CLI command and
   a `clean()` Python API.
 
-### Next: migration validation
-- **Validation rules** - required, unique/primary-key, allowed values, regex, and
-  range, each mapped to a data-quality dimension.
-- **Source-to-target mapping** - map columns to target fields with type, length,
-  and required constraints, and validate the mapped set ("will it load?").
-- **Referential and lookup validation** against a reference file.
-- **Row-count and control-total reconciliation** between source and cleaned data.
-- **Fuzzy and near-duplicate detection** for merge review.
+**Phase D - Migration validation (v0.3.0)**
+- **Target schemas** - describe the destination's contract in a small YAML/JSON
+  file: field names, source-column mapping, types, required/unique, lengths,
+  allowed values, regex patterns, numeric ranges, and lookups. `init-schema`
+  drafts one from a file's profile.
+- **The `validate` command** - runs the file against the schema, maps every rule
+  to a data-quality dimension (including **integrity** for lookups), renders a
+  PASS/FAIL report, and exits non-zero on failure so pipelines can gate on it.
+- **Referential and lookup validation** against reference files.
+- **Near-duplicate detection** - same record re-entered with a typo, found by
+  similarity with cheap blocking; offline and deterministic.
+- **The `reconcile` command** - row counts, key coverage both directions, and
+  control totals between source and cleaned/load-ready file.
 
-### Then: surfaces and adoption
+### Next: surfaces and adoption
 - **Desktop app** (Zinc & Sky, offline) - open a file, profile, clean, validate,
   and export the report, with a Windows installer.
 - **RecordForge round-trip** - clean the messy data RecordForge generates, and a

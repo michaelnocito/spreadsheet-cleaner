@@ -15,7 +15,15 @@ the CLI and Python API.
 **Phase C (shipped, v0.2.0):** the cleaning engine - deterministic a-la-carte
 steps, a change log, recipe files (YAML/JSON), a smart default recipe built from
 the profile, non-destructive output, a before/after cleaning report, and the
-`clean` CLI command / `clean()` API. No target validation yet (Phase D).
+`clean` CLI command / `clean()` API.
+
+**Phase D (shipped, v0.3.0):** migration validation - target schema files
+(YAML/JSON) describing the destination's contract, the rule engine (required /
+type / length / allowed / pattern / range / unique / lookup, each mapped to a
+dimension including INTEGRITY), near-duplicate detection (difflib similarity
+with signature blocking, hard row cap), source-vs-cleaned reconciliation
+(row counts, key coverage, control totals), a PASS/FAIL validation report, and
+the `validate` / `init-schema` / `reconcile` CLI commands.
 
 ---
 
@@ -51,18 +59,24 @@ spreadsheet_cleaner/
 │   ├── steps.py           # the cleaning transforms + STEP_REGISTRY
 │   ├── recipe.py          # Recipe/Step, load/save YAML+JSON, default_recipe()
 │   └── changelog.py       # ChangeLog, ChangeRecord
+├── validate/
+│   ├── __init__.py        # validate_table/validate_file, starter_schema_yaml()
+│   ├── schema.py          # TargetSchema/FieldSpec/Lookup, load_schema()
+│   ├── rules.py           # the rule engine → ValidationReport (PASS/FAIL)
+│   ├── dedupe.py          # near-duplicate rows (difflib + blocking, row cap)
+│   └── reconcile.py       # counts / key coverage / control totals
 └── report/
     ├── __init__.py        # render(), write() dispatch
     ├── html.py            # self-contained Zinc & Sky quality report (no CDN)
     ├── markdown.py        # Markdown quality report
     ├── json_report.py     # machine-readable JSON report
-    └── clean_report.py    # before/after + change-log report (HTML/Markdown)
+    ├── clean_report.py    # before/after + change-log report (HTML/Markdown)
+    └── validate_report.py # PASS/FAIL "will it load?" report (HTML/Markdown)
 ```
 
 Planned (later phases, not yet built):
 
 ```
-├── validate/              # Phase D: rules.py, mapping.py, reconcile.py
 └── ui/                    # Phase E: app.py (pywebview bridge) + ui.html
 ```
 
