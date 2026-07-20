@@ -32,6 +32,17 @@ from spreadsheet_cleaner.core.models import DIMENSION_ORDER, Severity
 from spreadsheet_cleaner.profiling import profile_table
 from spreadsheet_cleaner.report import FORMATS, write
 from spreadsheet_cleaner.report.clean_report import to_html as _clean_to_html
+from spreadsheet_cleaner.report.validate_report import (
+    to_html as _validate_to_html,
+    to_markdown as _validate_to_md,
+)
+from spreadsheet_cleaner.validate import (
+    find_near_duplicates,
+    load_schema,
+    reconcile as _reconcile,
+    starter_schema_yaml,
+    validate_table,
+)
 
 app = typer.Typer(
     add_completion=False,
@@ -178,6 +189,181 @@ def clean(
         html = next((p for p in written if p.suffix == ".html"), None)
         if html:
             webbrowser.open(html.resolve().as_uri())
+
+
+@app.command()
+def validate(
+    file: Path = typer.Argument(..., help="Path to the CSV or Excel file."),
+    schema: Path = typer.Option(
+        ..., "--schema", "-t", help="Target schema (.yml or .json). See init-schema."
+    ),
+    sheet: str = typer.Option(None, "--sheet", "-s", help="Excel sheet name (default: first)."),
+    out: Path = typer.Option(Path("."), "--out", "-o", help="Directory for the report."),
+    fmt: str = typer.Option("html", "--format", "-f", help="Report formats: html, md."),
+    near_dupes: bool = typer.Option(
+        True, "--near-dupes/--no-near-dupes",
+        help="Also scan for near-duplicate rows.",
+    ),
+    threshold: float = typer.Option(
+        0.90, "--threshold", help="Near-duplicate similarity threshold (0-1)."
+    ),
+    open_report: bool = typer.Option(False, "--open", help="Open the HTML report when done."),
+    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress the terminal summary."),
+) -> None:
+    """Validate a spreadsheet against a target schema: will it load?"""
+    try:
+        table = _load(file, sheet=sheet)
+        target = load_schema(schema)
+        report = validate_table(table, target, version=__version__)
+        dedupe = find_near_duplicates(table.frame, threshold=threshold) if near_dupes else None
+    except (LoadError, ValueError) as exc:
+        typer.secho(str(exc), fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=2)
+
+    formats = tuple(f.strip().lower() for f in fmt.split(",") if f.strip())
+    unknown = [f for f in formats if f not in ("html", "md")]
+    if unknown:
+        typer.secho(
+            f"Unknown format(s): {', '.join(unknown)}. Choose from html, md.",
+            fg=typer.colors.RED, err=True,
+        )
+        raise typer.Exit(code=2)
+
+    out.mkdir(parents=True, exist_ok=True)
+    written: list[Path] = []
+    stem = f"{file.stem}_validation_report"
+    if "html" in formats:
+        path = out / f"{stem}.html"
+        path.write_text(_validate_to_html(report, dedupe), encoding="utf-8")
+        written.append(path)
+    if "md" in formats:
+        path = out / f"{stem}.md"
+        path.write_text(_validate_to_md(report, dedupe), encoding="utf-8")
+        written.append(path)
+
+    if not quiet:
+        _print_validate_summary(report, dedupe)
+        for path in written:
+            typer.secho(f"  wrote {path}", fg=typer.colors.CYAN)
+
+    if open_report:
+        html = next((p for p in written if p.suffix == ".html"), None)
+        if html:
+            webbrowser.open(html.resolve().as_uri())
+
+    raise typer.Exit(code=0 if report.passed else 1)
+
+
+@app.command("init-schema")
+def init_schema(
+    file: Path = typer.Argument(..., help="Path to the CSV or Excel file to draft from."),
+    sheet: str = typer.Option(None, "--sheet", "-s", help="Excel sheet name (default: first)."),
+    out: Path = typer.Option(
+        None, "--out", "-o", help="Schema path to write. Default: <file>_target.yml"
+    ),
+    force: bool = typer.Option(False, "--force", help="Overwrite an existing schema file."),
+) -> None:
+    """Draft a starter target schema from a file's profile, for you to edit."""
+    try:
+        report = _profile(file, sheet=sheet)
+    except LoadError as exc:
+        typer.secho(str(exc), fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=2)
+    out = out or file.with_name(f"{file.stem}_target.yml")
+    if out.exists() and not force:
+        typer.secho(
+            f"{out} already exists. Use --force to overwrite it.",
+            fg=typer.colors.RED, err=True,
+        )
+        raise typer.Exit(code=2)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(starter_schema_yaml(report), encoding="utf-8")
+    typer.secho(f"  wrote {out}", fg=typer.colors.CYAN)
+    typer.echo(
+        "  Edit it to match the TARGET system's contract, then run: "
+        f"spreadsheet-cleaner validate {file.name} --schema {out.name}"
+    )
+
+
+@app.command()
+def reconcile(
+    source: Path = typer.Argument(..., help="The original source file."),
+    cleaned: Path = typer.Argument(..., help="The cleaned / load-ready file."),
+    key: str = typer.Option(None, "--key", "-k", help="Key column to compare in both files."),
+    totals: str = typer.Option(
+        None, "--totals", help="Comma-separated numeric columns for control totals."
+    ),
+    sheet: str = typer.Option(None, "--sheet", "-s", help="Sheet name for Excel inputs."),
+) -> None:
+    """Reconcile a cleaned file back against its source: counts, keys, totals."""
+    try:
+        src = _load(source, sheet=sheet)
+        oth = _load(cleaned, sheet=sheet)
+        total_columns = [c.strip() for c in totals.split(",") if c.strip()] if totals else None
+        result = _reconcile(src, oth, key=key, total_columns=total_columns)
+    except (LoadError, ValueError) as exc:
+        typer.secho(str(exc), fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=2)
+
+    typer.echo("")
+    typer.secho(f"  {source.name} vs {cleaned.name}", bold=True)
+    diff = result.row_difference
+    diff_note = "match" if diff == 0 else (f"{diff:+d} row(s)")
+    typer.echo(f"  rows: {result.source_rows:,} -> {result.other_rows:,}  ({diff_note})")
+    if key:
+        if result.keys_match:
+            typer.echo(f"  keys [{key}]: all present in both files")
+        else:
+            if result.keys_only_in_source:
+                sample = ", ".join(result.keys_only_in_source[:6])
+                typer.echo(
+                    f"  keys only in source ({len(result.keys_only_in_source)}): {sample}"
+                )
+            if result.keys_only_in_other:
+                sample = ", ".join(result.keys_only_in_other[:6])
+                typer.echo(
+                    f"  keys only in cleaned ({len(result.keys_only_in_other)}): {sample}"
+                )
+    for total in result.control_totals:
+        mark = "match" if total.matches else f"off by {total.difference}"
+        typer.echo(
+            f"  total [{total.column}]: {total.source_total} -> {total.other_total}  ({mark})"
+        )
+    verdict = "RECONCILED" if result.clean_pass else "DIFFERENCES FOUND"
+    color = typer.colors.GREEN if result.clean_pass else typer.colors.YELLOW
+    typer.echo("")
+    typer.secho(f"  {verdict}", fg=color, bold=True)
+    typer.echo("")
+    raise typer.Exit(code=0 if result.clean_pass else 1)
+
+
+def _print_validate_summary(report, dedupe) -> None:
+    color = typer.colors.GREEN if report.passed else typer.colors.RED
+    verdict = "PASS" if report.passed else "FAIL"
+    typer.echo("")
+    typer.secho(
+        f"  {Path(report.source).name} vs target '{report.target}'  -  {verdict} "
+        f"({report.score:.0f}/100)",
+        fg=color, bold=True,
+    )
+    typer.echo(f"  {report.rows:,} rows checked against {len(report.fields)} target field(s)")
+    typer.echo(f"  {report.error_count} error(s), {report.warning_count} warning(s)")
+    if dedupe is not None and not dedupe.skipped:
+        typer.echo(f"  near-duplicate pairs: {len(dedupe.pairs)}")
+    elif dedupe is not None:
+        typer.echo(f"  {dedupe.skip_reason}")
+    typer.echo("")
+    for f in report.fields:
+        if not f.found:
+            status = "NOT FOUND"
+        elif f.errors:
+            status = f"{f.errors} error(s)"
+        elif f.warnings:
+            status = f"{f.warnings} warning(s)"
+        else:
+            status = "ok"
+        typer.echo(f"    {f.name:<20} <- {f.source:<20} {status}")
+    typer.echo("")
 
 
 def _print_clean_summary(result, before, after, dry_run: bool) -> None:

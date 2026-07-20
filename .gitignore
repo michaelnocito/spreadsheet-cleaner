@@ -41,6 +41,11 @@ sample_data/messy_employees.xlsx
 *_quality_report.html
 *_quality_report.md
 *_quality_report.json
+*_cleaning_report.html
+*_validation_report.html
+*_validation_report.md
+*_cleaned.csv
+*_cleaned.xlsx
 
 # pytest
 .pytest_cache/

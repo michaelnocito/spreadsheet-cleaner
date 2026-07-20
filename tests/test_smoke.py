@@ -8,7 +8,15 @@ from pathlib import Path
 
 import pytest
 
-from spreadsheet_cleaner import __version__, clean, profile
+from spreadsheet_cleaner import (
+    __version__,
+    clean,
+    find_near_duplicates,
+    load_schema,
+    profile,
+    reconcile,
+    validate,
+)
 from spreadsheet_cleaner.clean import clean_file, default_recipe, load_recipe, save_recipe, write_clean
 from spreadsheet_cleaner.core import types
 from spreadsheet_cleaner.core.io import LoadError, load
@@ -206,3 +214,153 @@ def test_unknown_step_raises(messy_csv: Path):
     bad = Recipe(steps=[Step(type="does_not_exist")])
     with pytest.raises(ValueError):
         clean_table(_load(messy_csv), recipe=bad)
+
+
+# ---- validation engine -------------------------------------------------------
+
+SCHEMA_YAML = """\
+target: Test Target
+key: employee_id
+fields:
+  - name: employee_id
+    type: integer
+  - name: full_name
+    required: true
+    max_length: 12
+  - name: start_date
+    type: date
+    required: true
+  - name: department
+    lookup: { file: departments.csv, column: department }
+  - name: salary
+    type: integer
+    min: 20000
+    max: 90000
+  - name: active
+    allowed: ["yes", "no"]
+settings:
+  extra_columns: warn
+"""
+
+
+@pytest.fixture()
+def target_schema(tmp_path: Path):
+    (tmp_path / "departments.csv").write_text(
+        "department\nEngineering\nMarketing\nSales\nHR\n", encoding="utf-8"
+    )
+    schema_path = tmp_path / "target.yml"
+    schema_path.write_text(SCHEMA_YAML, encoding="utf-8")
+    return load_schema(schema_path)
+
+
+def test_validate_catches_contract_violations(messy_csv: Path, target_schema):
+    report = validate(messy_csv, target_schema)
+    assert not report.passed
+    dims = {i.dimension for i in report.issues}
+    assert Dimension.UNIQUENESS in dims     # duplicate 1003 vs unique key
+    assert Dimension.COMPLETENESS in dims   # blank full_name in a required field
+    assert Dimension.VALIDITY in dims       # 'not_a_number' salary / bad date
+    assert Dimension.INTEGRITY in dims      # 'engineering' not in the lookup (case-sensitive)
+    titles = " ".join(i.title for i in report.issues)
+    assert "Sarah Johnson" not in titles    # sanity: values only appear as samples
+
+
+def test_validate_range_and_length(messy_csv: Path, target_schema):
+    report = validate(messy_csv, target_schema)
+    out_of_range = [i for i in report.issues if "out of range" in i.title]
+    assert out_of_range and "91000" in out_of_range[0].samples
+    too_long = [i for i in report.issues if "max length" in i.title]
+    assert too_long  # 'Sarah Johnson' is 13 chars > 12
+
+
+def test_validate_missing_source_column(tmp_path: Path, messy_csv: Path):
+    schema_path = tmp_path / "s.yml"
+    schema_path.write_text(
+        "target: T\nfields:\n  - name: nope\n    required: true\n", encoding="utf-8"
+    )
+    report = validate(messy_csv, load_schema(schema_path))
+    assert not report.passed
+    assert any(not f.found for f in report.fields)
+
+
+def test_clean_then_validate_passes_more(messy_csv: Path, target_schema, tmp_path: Path):
+    before = validate(messy_csv, target_schema)
+    result = clean(messy_csv)
+    cleaned_path = write_clean(result, tmp_path / "cleaned.csv")
+    after = validate(cleaned_path, target_schema)
+    assert after.error_count < before.error_count
+    assert after.score >= before.score
+
+
+def test_starter_schema_roundtrips(messy_csv: Path, tmp_path: Path):
+    from spreadsheet_cleaner.validate import starter_schema_yaml
+    draft = starter_schema_yaml(profile(messy_csv))
+    path = tmp_path / "draft.yml"
+    path.write_text(draft, encoding="utf-8")
+    schema = load_schema(path)  # the draft must be a valid schema as-is
+    assert any(f.name == "employee_id" for f in schema.fields)
+
+
+def test_bad_schema_raises(tmp_path: Path):
+    path = tmp_path / "bad.yml"
+    path.write_text(
+        "target: T\nfields:\n  - name: a\n    type: not_a_type\n", encoding="utf-8"
+    )
+    with pytest.raises(ValueError):
+        load_schema(path)
+
+
+# ---- near-duplicates and reconciliation --------------------------------------
+
+def test_near_duplicates_found(tmp_path: Path):
+    path = tmp_path / "dupes.csv"
+    with path.open("w", newline="", encoding="utf-8") as fh:
+        csv.writer(fh).writerows([
+            ["name", "email", "city"],
+            ["Sarah Johnson", "sarah.j@co.com", "Portland"],
+            ["Sara Johnson", "sarah.j@co.com", "Portland"],   # near-dup (typo)
+            ["Tom Reyes", "tom.r@co.com", "Austin"],
+        ])
+    frame = load(path).frame
+    result = find_near_duplicates(frame, threshold=0.85)
+    assert len(result.pairs) == 1
+    assert {result.pairs[0].row_a, result.pairs[0].row_b} == {1, 2}
+
+
+def test_near_duplicates_ignores_distinct_rows(messy_csv: Path):
+    frame = load(messy_csv).frame
+    result = find_near_duplicates(frame, threshold=0.97)
+    # the two 1003/Linda rows differ in several fields; at 0.97 nothing pairs
+    assert all(p.similarity >= 0.97 for p in result.pairs)
+
+
+def test_reconcile_counts_keys_and_totals(messy_csv: Path, tmp_path: Path):
+    result = clean(messy_csv)
+    cleaned_path = write_clean(result, tmp_path / "cleaned.csv")
+    rec = reconcile(
+        load(messy_csv), load(cleaned_path),
+        key="employee_id", total_columns=["salary"],
+    )
+    # No exact-duplicate rows in the fixture, so cleaning drops nothing:
+    # counts, keys, and salary control totals all reconcile.
+    assert rec.source_rows == rec.other_rows == 6
+    assert rec.keys_match
+    assert rec.control_totals[0].column == "salary"
+    assert rec.clean_pass
+
+
+def test_reconcile_detects_dropped_row(messy_csv: Path, tmp_path: Path):
+    import pandas as pd
+    frame = load(messy_csv).frame
+    trimmed = frame.iloc[:-1]  # simulate a lost record
+    lost_path = tmp_path / "lost.csv"
+    trimmed.to_csv(lost_path, index=False)
+    rec = reconcile(load(messy_csv), load(lost_path), key="employee_id")
+    assert rec.row_difference == -1
+    assert rec.keys_only_in_source == ["1006"]
+    assert not rec.clean_pass
+
+
+def test_reconcile_missing_key_raises(messy_csv: Path):
+    with pytest.raises(ValueError):
+        reconcile(load(messy_csv), load(messy_csv), key="nope")

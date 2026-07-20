@@ -34,8 +34,17 @@ from spreadsheet_cleaner.core.models import (
     Severity,
 )
 from spreadsheet_cleaner.profiling import profile_table
+from spreadsheet_cleaner.validate import (
+    ReconcileResult,
+    TargetSchema,
+    ValidationReport,
+    find_near_duplicates,
+    load_schema,
+    reconcile,
+    validate_file,
+)
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 
 def profile(path: str | Path, *, sheet: str | None = None) -> QualityReport:
@@ -50,10 +59,25 @@ def clean(
     return clean_file(path, recipe=recipe, sheet=sheet)
 
 
+def validate(
+    path: str | Path, schema: str | Path | TargetSchema, *, sheet: str | None = None
+) -> ValidationReport:
+    """Validate a CSV/Excel file against a target schema: will it load?"""
+    target = schema if isinstance(schema, TargetSchema) else load_schema(schema)
+    return validate_file(path, target, sheet=sheet, version=__version__)
+
+
 __all__ = [
     "__version__",
     "profile",
     "clean",
+    "validate",
+    "reconcile",
+    "find_near_duplicates",
+    "TargetSchema",
+    "load_schema",
+    "ValidationReport",
+    "ReconcileResult",
     "load",
     "LoadError",
     "QualityReport",

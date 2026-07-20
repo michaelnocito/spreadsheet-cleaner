@@ -22,6 +22,7 @@ class Dimension(str, Enum):
     CONSISTENCY = "consistency"
     CONFORMITY = "conformity"
     STRUCTURE = "structure"
+    INTEGRITY = "integrity"
 
     @property
     def label(self) -> str:
@@ -32,6 +33,7 @@ class Dimension(str, Enum):
             Dimension.CONSISTENCY: "Consistency",
             Dimension.CONFORMITY: "Conformity",
             Dimension.STRUCTURE: "Structure",
+            Dimension.INTEGRITY: "Integrity",
         }[self]
 
     @property
@@ -43,16 +45,29 @@ class Dimension(str, Enum):
             Dimension.CONSISTENCY: "The same value is spelled and cased one way.",
             Dimension.CONFORMITY: "Values follow one format for dates, numbers, and spacing.",
             Dimension.STRUCTURE: "The table has a clean shape: no blank rows or columns.",
+            Dimension.INTEGRITY: "References resolve: every coded value exists in its lookup.",
         }[self]
 
 
-# Dimensions shown on the scorecard, in report order.
+# Dimensions shown on the profile scorecard, in report order. INTEGRITY only
+# applies when a target schema declares lookups, so it appears on the
+# validation scorecard (VALIDATION_ORDER) rather than here.
 DIMENSION_ORDER: tuple[Dimension, ...] = (
     Dimension.COMPLETENESS,
     Dimension.VALIDITY,
     Dimension.CONFORMITY,
     Dimension.CONSISTENCY,
     Dimension.UNIQUENESS,
+    Dimension.STRUCTURE,
+)
+
+# Dimensions shown on the validation scorecard ("will it load?").
+VALIDATION_ORDER: tuple[Dimension, ...] = (
+    Dimension.COMPLETENESS,
+    Dimension.VALIDITY,
+    Dimension.CONFORMITY,
+    Dimension.UNIQUENESS,
+    Dimension.INTEGRITY,
     Dimension.STRUCTURE,
 )
 

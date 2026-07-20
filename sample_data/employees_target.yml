@@ -1,0 +1,30 @@
+# Example target schema for the messy_employees sample.
+# This is the contract of the imaginary HR system we are migrating INTO.
+# Run:
+#   spreadsheet-cleaner validate sample_data/messy_employees.xlsx --schema sample_data/employees_target.yml
+# The raw sample FAILS on purpose; clean it first and validate the cleaned copy.
+target: HR System - Employees
+key: employee_id
+fields:
+  - name: employee_id
+    type: integer
+  - name: full_name
+    required: true
+    max_length: 80
+  - name: start_date
+    type: date
+    required: true
+  - name: department
+    required: true
+    lookup: { file: departments.csv, column: department }
+  - name: email
+    type: email
+    required: true
+  - name: salary
+    type: integer
+    min: 20000
+    max: 500000
+  - name: status
+    allowed: [Active, Inactive]
+settings:
+  extra_columns: warn

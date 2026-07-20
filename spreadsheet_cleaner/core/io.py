@@ -56,14 +56,30 @@ def is_placeholder_null(value: object) -> bool:
     return str(value).strip().casefold() in PLACEHOLDER_NULLS
 
 
+def _sniff_delimiter(sample: str) -> str:
+    """Pick the delimiter from a fixed candidate set; default to comma.
+
+    csv.Sniffer (and pandas' sep=None) can latch onto an ordinary letter in
+    single-column files, splitting 'department' into 'depar'/'men'. Restricting
+    candidates to real delimiters avoids that.
+    """
+    import csv as _csv
+
+    try:
+        return _csv.Sniffer().sniff(sample, delimiters=",;\t|").delimiter
+    except _csv.Error:
+        return ","
+
+
 def _read_csv(path: Path) -> pd.DataFrame:
     last_error: Exception | None = None
     for encoding in _ENCODINGS:
         try:
+            sample = path.read_text(encoding=encoding)[:8192]
             return pd.read_csv(
                 path,
                 dtype=str,
-                sep=None,  # sniff the delimiter
+                sep=_sniff_delimiter(sample),
                 engine="python",
                 keep_default_na=False,
                 na_filter=False,
