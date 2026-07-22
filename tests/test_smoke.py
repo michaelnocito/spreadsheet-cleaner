@@ -364,3 +364,93 @@ def test_reconcile_detects_dropped_row(messy_csv: Path, tmp_path: Path):
 def test_reconcile_missing_key_raises(messy_csv: Path):
     with pytest.raises(ValueError):
         reconcile(load(messy_csv), load(messy_csv), key="nope")
+
+
+# ---- desktop bridge (headless: no window is created) -------------------------
+
+pywebview = pytest.importorskip("webview", reason="desktop extra not installed")
+
+
+@pytest.fixture()
+def bridge():
+    from spreadsheet_cleaner.ui.app import API
+    return API()
+
+
+def test_ui_html_is_bundled_and_resolves():
+    from spreadsheet_cleaner.ui.app import ui_html_path
+    path = ui_html_path()
+    assert path.exists() and path.name == "ui.html"
+    # resolved from the package, not the entry script (PyInstaller onefile)
+    assert path.parent.name == "ui" and path.parent.parent.name == "spreadsheet_cleaner"
+
+
+def test_bridge_run_profile_only(bridge, messy_csv: Path, tmp_path: Path):
+    res = bridge.run({"file": str(messy_csv), "out": str(tmp_path)})
+    assert res["success"] is True
+    assert len(res["files"]) == 1
+    assert Path(res["files"][0]["path"]).exists()
+    assert res["summary"]["profile"]["grade"] in {"A", "B", "C", "D", "F"}
+    assert res["summary"]["clean"] is None and res["summary"]["validate"] is None
+
+
+def test_bridge_run_clean_and_validate(bridge, messy_csv: Path, target_schema, tmp_path: Path):
+    res = bridge.run({
+        "file": str(messy_csv), "out": str(tmp_path),
+        "clean": True, "validate": True,
+        "schema": str(target_schema.path), "near_dupes": True,
+    })
+    assert res["success"] is True
+    labels = {f["label"] for f in res["files"]}
+    assert {"Quality report", "Cleaned data", "Cleaning report", "Recipe (re-runnable)",
+            "Validation report"} <= labels
+    for f in res["files"]:
+        assert Path(f["path"]).exists()
+    assert res["summary"]["clean"]["after_score"] >= res["summary"]["clean"]["before_score"]
+    assert res["summary"]["validate"]["verdict"] in {"PASS", "FAIL"}
+    assert res["summary"]["validate"]["on_cleaned"] is True
+
+
+def test_bridge_errors_are_returned_not_raised(bridge, tmp_path: Path):
+    res = bridge.run({"file": str(tmp_path / "nope.csv"), "out": str(tmp_path)})
+    assert res["success"] is False and res["files"] == []
+    assert "not found" in res["error"].lower()
+
+
+def test_bridge_validate_without_schema_errors(bridge, messy_csv: Path, tmp_path: Path):
+    res = bridge.run({"file": str(messy_csv), "out": str(tmp_path), "validate": True})
+    assert res["success"] is False and "schema" in res["error"].lower()
+
+
+def test_bridge_draft_schema(bridge, messy_csv: Path, tmp_path: Path):
+    res = bridge.draft_schema({"file": str(messy_csv), "out": str(tmp_path)})
+    assert res["success"] is True
+    assert load_schema(res["path"]).fields  # the draft is immediately valid
+
+
+def test_bridge_version_and_sheets(bridge, messy_csv: Path):
+    assert bridge.app_version() == __version__
+    assert bridge.sheets(str(messy_csv)) == []  # CSV has no sheets
+
+
+def test_update_check_handles_offline(bridge, monkeypatch):
+    from spreadsheet_cleaner.ui import app as ui_app
+    monkeypatch.setattr(
+        ui_app, "_fetch_latest_release",
+        lambda: (_ for _ in ()).throw(OSError("no network")),
+    )
+    result = bridge.check_update()
+    assert result["status"] == "error" and result["url"].endswith("/releases/latest")
+
+
+def test_update_check_reports_available(bridge, monkeypatch):
+    from spreadsheet_cleaner.ui import app as ui_app
+    monkeypatch.setattr(ui_app, "_fetch_latest_release", lambda: {"tag_name": "v99.0.0"})
+    result = bridge.check_update()
+    assert result["status"] == "available" and result["latest"] == "99.0.0"
+
+
+def test_update_check_reports_latest(bridge, monkeypatch):
+    from spreadsheet_cleaner.ui import app as ui_app
+    monkeypatch.setattr(ui_app, "_fetch_latest_release", lambda: {"tag_name": f"v{__version__}"})
+    assert bridge.check_update()["status"] == "latest"

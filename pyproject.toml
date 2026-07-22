@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spreadsheet-cleaner"
-version = "0.3.0"
+version = "0.4.0"
 description = "The offline workbench for pre-migration data quality: profile, clean, and validate messy spreadsheets and export a defensible quality report. No cloud, no upload."
 readme = "README.md"
 requires-python = ">=3.10"

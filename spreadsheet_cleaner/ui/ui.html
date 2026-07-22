@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spreadsheet Cleaner</title>
+<style>
+:root{
+  --bg:#F5F7F8; --surface:#fff; --line:#E4E7EA; --ink:#09090B; --muted:#52525B; --faint:#71717A;
+  --accent:#0E7490; --accent-2:#155E6E; --soft:#E0F5F9; --soft-bd:#A5E1ED;
+  --good:#047857; --good-bg:#ECFDF5; --warn:#B45309; --warn-bg:#FFFBEB; --bad:#DC2626; --bad-bg:#FEF2F2;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#09090B; --surface:#18181B; --line:#27272A; --ink:#F5F7F8; --muted:#C3C7CE; --faint:#8A8F98;
+    --accent:#38BDF8; --accent-2:#7DD3FC; --soft:#0F3D48; --soft-bd:#134E5C;
+    --good:#34D399; --good-bg:#0A2B22; --warn:#F59E0B; --warn-bg:#2A2213; --bad:#F87171; --bad-bg:#2A1414;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);
+  font:14px/1.55 "IBM Plex Sans","Segoe UI",Roboto,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.app{min-height:100vh;display:grid;grid-template-rows:auto 1fr auto}
+h1,h2,h3{font-family:"Space Grotesk","Segoe UI",system-ui,sans-serif;letter-spacing:-.01em}
+.topbar{background:var(--surface);border-bottom:1px solid var(--line);padding:12px 22px;
+  display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:10px;font-family:"Space Grotesk",system-ui,sans-serif;font-size:16px;font-weight:700}
+.logo{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--soft),var(--soft-bd));color:var(--accent);font-size:16px}
+.offline{font-size:11px;background:var(--good-bg);color:var(--good);border-radius:999px;padding:3px 10px;font-weight:600}
+.main{max-width:760px;margin:26px auto;padding:0 18px;width:100%}
+.steps{display:flex;gap:8px;margin-bottom:20px}
+.step{flex:1;text-align:center;font-size:11px;color:var(--faint)}
+.dot{width:26px;height:26px;border-radius:999px;border:2px solid var(--line);background:var(--surface);
+  display:inline-flex;align-items:center;justify-content:center;font-size:12px;margin-bottom:4px}
+.step.active{color:var(--accent);font-weight:600}
+.step.active .dot{border-color:var(--accent);background:var(--accent);color:#fff}
+@media (prefers-color-scheme: dark){.step.active .dot{color:#082032}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.card-head{padding:18px 22px;border-bottom:1px solid var(--line);background:var(--bg)}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.card-head h2{font-size:19px;margin:5px 0 4px}
+.card-head p{font-size:13px;color:var(--muted)}
+.card-body{padding:20px 22px}
+.card-foot{padding:14px 22px;border-top:1px solid var(--line);background:var(--bg);
+  display:flex;justify-content:space-between;align-items:center;gap:12px}
+.panel{display:none}.panel.active{display:block}
+label.fld{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.row{display:flex;gap:8px;align-items:center;margin-bottom:16px}
+.pathbox{flex:1;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:9px 12px;
+  font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.pathbox.empty{color:var(--faint)}
+select{width:100%;padding:9px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg);
+  color:var(--ink);font-size:13px}
+.btn{border-radius:999px;padding:9px 18px;font-size:13px;font-weight:600;border:1px solid transparent;
+  cursor:pointer;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+@media (prefers-color-scheme: dark){.btn-primary{color:#082032}}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed}
+.btn-ghost{background:transparent;color:var(--muted);border-color:var(--line)}
+.btn-sm{padding:7px 14px;font-size:12px}
+.opt{display:flex;gap:11px;align-items:flex-start;padding:13px 15px;border:1px solid var(--line);
+  border-radius:11px;margin-bottom:10px;cursor:pointer;background:var(--bg)}
+.opt.on{border-color:var(--accent);background:var(--soft)}
+.opt input{margin-top:3px;accent-color:var(--accent)}
+.opt strong{display:block;font-size:13.5px;margin-bottom:2px}
+.opt span{font-size:12px;color:var(--muted)}
+.sub{margin:10px 0 0 30px;display:none}
+.sub.show{display:block}
+.hint{font-size:11.5px;color:var(--faint);margin-top:6px}
+.err{background:var(--bad-bg);color:var(--bad);border-radius:9px;padding:11px 14px;font-size:12.5px;margin-bottom:14px;display:none}
+.err.show{display:block}
+.scoreline{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.chip{border-radius:10px;padding:10px 14px;background:var(--bg);border:1px solid var(--line);font-size:12px;min-width:120px}
+.chip b{display:block;font-family:"Space Grotesk",sans-serif;font-size:19px;margin-top:2px}
+.g-good{color:var(--good)}.g-warn{color:var(--warn)}.g-bad{color:var(--bad)}
+.file{display:flex;align-items:center;gap:10px;background:var(--soft);border:1px solid var(--soft-bd);
+  border-radius:9px;padding:9px 12px;margin-bottom:8px;font-size:12.5px}
+.file .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.linkbtn{background:none;border:none;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit;font-size:12px;padding:0}
+.spinner{width:15px;height:15px;border:2px solid var(--line);border-top-color:var(--accent);
+  border-radius:50%;display:inline-block;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:7px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.foot{text-align:center;padding:13px;font-size:11px;color:var(--faint);border-top:1px solid var(--line);background:var(--surface)}
+.foot .linkbtn{font-size:11px}
+#updateMsg{margin-top:6px;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header class="topbar">
+  <div class="brand"><span class="logo">&#9638;</span> Spreadsheet Cleaner</div>
+  <span class="offline">&#128274; Runs offline &middot; nothing uploaded</span>
+</header>
+
+<main class="main">
+  <div class="steps">
+    <div class="step active" id="s1"><div class="dot">1</div><div>Choose file</div></div>
+    <div class="step" id="s2"><div class="dot">2</div><div>What to run</div></div>
+    <div class="step" id="s3"><div class="dot">3</div><div>Results</div></div>
+  </div>
+
+  <div class="err" id="err"></div>
+
+  <!-- STEP 1 -->
+  <div class="panel active" id="p1">
+    <div class="card">
+      <div class="card-head">
+        <div class="eyebrow">Step 1 of 3</div>
+        <h2>Which spreadsheet?</h2>
+        <p>Pick the CSV or Excel file you need to check. It is never modified.</p>
+      </div>
+      <div class="card-body">
+        <label class="fld">Source file</label>
+        <div class="row">
+          <div class="pathbox empty" id="fileBox">No file chosen</div>
+          <button class="btn btn-ghost btn-sm" onclick="pickFile()">Browse&hellip;</button>
+        </div>
+        <div id="sheetWrap" style="display:none">
+          <label class="fld">Sheet</label>
+          <select id="sheetSel"></select>
+        </div>
+      </div>
+      <div class="card-foot">
+        <span class="hint">CSV, XLSX, or XLSM</span>
+        <button class="btn btn-primary" id="toStep2" disabled onclick="go(2)">Next: what to run</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="panel" id="p2">
+    <div class="card">
+      <div class="card-head">
+        <div class="eyebrow">Step 2 of 3</div>
+        <h2>What should it do?</h2>
+        <p>A quality report is always produced. Add cleaning and validation as needed.</p>
+      </div>
+      <div class="card-body">
+        <div class="opt on" style="cursor:default">
+          <input type="checkbox" checked disabled>
+          <div><strong>&#128202; Profile and report</strong>
+            <span>Score the file across six data-quality dimensions and list every problem.</span></div>
+        </div>
+
+        <label class="opt" id="optClean" onclick="toggle('clean')">
+          <input type="checkbox" id="cbClean">
+          <div><strong>&#129529; Clean it</strong>
+            <span>Trim spaces, standardize dates and casing, strip currency symbols, remove duplicate
+            rows. Writes a cleaned copy, a change log, and a re-runnable recipe.</span></div>
+        </label>
+
+        <label class="opt" id="optValidate" onclick="toggle('validate')">
+          <input type="checkbox" id="cbValidate">
+          <div><strong>&#9989; Validate against a target</strong>
+            <span>Check it against your target system's schema for a PASS or FAIL verdict.</span></div>
+        </label>
+        <div class="sub" id="schemaSub">
+          <label class="fld">Target schema</label>
+          <div class="row">
+            <div class="pathbox empty" id="schemaBox">No schema chosen</div>
+            <button class="btn btn-ghost btn-sm" onclick="pickSchema()">Browse&hellip;</button>
+          </div>
+          <div class="hint">No schema yet?
+            <button class="linkbtn" onclick="draftSchema()">Draft one from this file</button>
+            and edit it to match your target.</div>
+        </div>
+
+        <label class="fld" style="margin-top:18px">Save results to</label>
+        <div class="row">
+          <div class="pathbox" id="outBox">&hellip;</div>
+          <button class="btn btn-ghost btn-sm" onclick="pickFolder()">Change&hellip;</button>
+        </div>
+      </div>
+      <div class="card-foot">
+        <button class="btn btn-ghost" onclick="go(1)">Back</button>
+        <button class="btn btn-primary" id="runBtn" onclick="run()">Run</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="panel" id="p3">
+    <div class="card">
+      <div class="card-head">
+        <div class="eyebrow">Step 3 of 3</div>
+        <h2 id="resTitle">Done</h2>
+        <p id="resSub">Your reports are ready.</p>
+      </div>
+      <div class="card-body">
+        <div class="scoreline" id="scores"></div>
+        <div id="fileList"></div>
+      </div>
+      <div class="card-foot">
+        <button class="btn btn-ghost" onclick="go(2)">Run again</button>
+        <button class="btn btn-primary" onclick="openFolder()">Open folder</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <span id="ver">Spreadsheet Cleaner</span> &middot;
+  <button class="linkbtn" onclick="checkUpdate()">Check for updates</button>
+  <div id="updateMsg"></div>
+</footer>
+</div>
+
+<script>
+const state = { file:null, sheet:null, schema:null, out:null, clean:false, validate:false };
+
+function api(){ return (window.pywebview && window.pywebview.api) ? window.pywebview.api : null; }
+function $(id){ return document.getElementById(id); }
+function showErr(msg){ const e=$('err'); e.textContent=msg; e.classList.add('show'); }
+function clearErr(){ $('err').classList.remove('show'); }
+
+function go(n){
+  clearErr();
+  [1,2,3].forEach(i=>{
+    $('p'+i).classList.toggle('active', i===n);
+    $('s'+i).classList.toggle('active', i===n);
+  });
+}
+
+async function boot(){
+  const a = api(); if(!a) return;
+  try{
+    const v = await a.app_version();
+    $('ver').textContent = 'Spreadsheet Cleaner v' + v;
+    state.out = await a.default_out_dir();
+    $('outBox').textContent = state.out;
+  }catch(e){}
+}
+window.addEventListener('pywebviewready', boot);
+
+async function pickFile(){
+  const a=api(); if(!a) return;
+  const p = await a.choose_file();
+  if(!p) return;
+  state.file = p; state.sheet = null;
+  $('fileBox').textContent = p; $('fileBox').classList.remove('empty');
+  $('toStep2').disabled = false;
+  const sheets = await a.sheets(p);
+  const wrap=$('sheetWrap'), sel=$('sheetSel');
+  if(sheets && sheets.length > 1){
+    sel.innerHTML = sheets.map(s=>`<option>${s}</option>`).join('');
+    state.sheet = sheets[0];
+    sel.onchange = ()=>{ state.sheet = sel.value; };
+    wrap.style.display='block';
+  } else { wrap.style.display='none'; }
+}
+
+async function pickSchema(){
+  const a=api(); if(!a) return;
+  const p = await a.choose_schema();
+  if(!p) return;
+  state.schema = p;
+  $('schemaBox').textContent = p; $('schemaBox').classList.remove('empty');
+}
+
+async function pickFolder(){
+  const a=api(); if(!a) return;
+  const p = await a.choose_folder();
+  if(!p) return;
+  state.out = p; $('outBox').textContent = p;
+}
+
+function toggle(which){
+  setTimeout(()=>{
+    if(which==='clean'){
+      state.clean = $('cbClean').checked;
+      $('optClean').classList.toggle('on', state.clean);
+    } else {
+      state.validate = $('cbValidate').checked;
+      $('optValidate').classList.toggle('on', state.validate);
+      $('schemaSub').classList.toggle('show', state.validate);
+    }
+  },0);
+}
+
+async function draftSchema(){
+  const a=api(); if(!a) return;
+  clearErr();
+  const res = await a.draft_schema({file:state.file, sheet:state.sheet, out:state.out});
+  if(res.success){
+    state.schema = res.path;
+    $('schemaBox').textContent = res.path; $('schemaBox').classList.remove('empty');
+    a.open_path(res.path);
+  } else { showErr(res.error); }
+}
+
+function gradeClass(score){ return score>=85?'g-good':(score>=70?'g-warn':'g-bad'); }
+
+async function run(){
+  const a=api(); if(!a) return;
+  clearErr();
+  if(state.validate && !state.schema){ showErr('Choose a target schema, or turn off validation.'); return; }
+  const btn=$('runBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Working&hellip;';
+  const res = await a.run({
+    file:state.file, sheet:state.sheet, out:state.out,
+    clean:state.clean, validate:state.validate, schema:state.schema, near_dupes:true
+  });
+  btn.disabled=false; btn.textContent='Run';
+  if(!res.success){ showErr(res.error); return; }
+  render(res); go(3);
+}
+
+function render(res){
+  const s = res.summary;
+  state.out = res.folder;
+  const chips = [];
+  chips.push(`<div class="chip">Quality<b class="${gradeClass(s.profile.score)}">${s.profile.grade} &middot; ${Math.round(s.profile.score)}</b>
+    ${s.profile.errors} error(s)</div>`);
+  chips.push(`<div class="chip">Size<b>${s.rows.toLocaleString()} &times; ${s.cols}</b>rows &times; columns</div>`);
+  if(s.clean){
+    chips.push(`<div class="chip">After cleaning<b class="${gradeClass(s.clean.after_score)}">${s.clean.after_grade} &middot; ${Math.round(s.clean.after_score)}</b>
+      ${s.clean.changes} change(s)</div>`);
+  }
+  if(s.validate){
+    const pass = s.validate.verdict==='PASS';
+    chips.push(`<div class="chip">Will it load?<b class="${pass?'g-good':'g-bad'}">${s.validate.verdict}</b>
+      ${s.validate.errors} error(s)</div>`);
+  }
+  $('scores').innerHTML = chips.join('');
+
+  $('fileList').innerHTML = res.files.map(f=>`
+    <div class="file"><span>&#128196;</span><span class="nm" title="${f.path}">${f.label}</span>
+    <button class="linkbtn" onclick="openFile('${f.path.replace(/\\/g,'\\\\')}')">Open</button></div>`).join('');
+
+  if(s.validate){
+    const pass = s.validate.verdict==='PASS';
+    $('resTitle').textContent = pass ? 'Ready to load' : 'Not ready to load';
+    $('resSub').textContent = pass
+      ? `This file satisfies the '${s.validate.target}' contract.`
+      : `${s.validate.errors} problem(s) must be fixed before loading into '${s.validate.target}'.`;
+  } else {
+    $('resTitle').textContent = 'Done';
+    $('resSub').textContent = 'Your reports are ready.';
+  }
+}
+
+function openFile(p){ const a=api(); if(a) a.open_path(p); }
+function openFolder(){ const a=api(); if(a && state.out) a.open_folder(state.out); }
+
+async function checkUpdate(){
+  const a=api(); if(!a) return;
+  const m=$('updateMsg'); m.textContent='Checking…';
+  const r = await a.check_update();
+  if(r.status==='latest'){ m.textContent = `You're on the latest version (v${r.current}).`; }
+  else if(r.status==='available'){
+    m.innerHTML = `v${r.latest} is available. <button class="linkbtn" onclick="openReleases()">Get it</button>`;
+  } else {
+    m.innerHTML = `${r.message} <button class="linkbtn" onclick="openReleases()">Open releases page</button>`;
+  }
+}
+function openReleases(){ const a=api(); if(a) a.open_releases(); }
+</script>
+</body>
+</html>

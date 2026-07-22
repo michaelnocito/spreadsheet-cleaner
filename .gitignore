@@ -49,3 +49,8 @@ sample_data/messy_employees.xlsx
 
 # pytest
 .pytest_cache/
+
+# Desktop build artifacts (never commit installers or frozen exes)
+dist/
+build/
+Output/
