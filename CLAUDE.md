@@ -19,10 +19,12 @@ architecture and ROADMAP.md for the plan.
 
 1. **Read SPEC.md first.** The structure and contracts are already decided. Do
    not invent modules the spec does not describe.
-2. **No network calls** in ingest, profiling, cleaning, or reporting. This tool
-   handles the user's real client data; it must be air-gappable. The only
-   sanctioned exception is a future opt-in update check in the UI layer, which
-   runs on an explicit click and sends no user data.
+2. **No network calls** in ingest, profiling, cleaning, validation, or
+   reporting. This tool handles the user's real client data; it must be
+   air-gappable. The ONE sanctioned exception is `check_update()` in
+   `ui/app.py`: it runs only on an explicit Check for Updates click, reads the
+   public GitHub Releases API, and sends no user data. Do not add another
+   network call, and never make this one run at startup.
 3. **Read-only on the source.** Profiling never modifies the input file. Cleaning
    (Phase C) writes a cleaned copy plus a change log; it never overwrites the
    source.
@@ -63,6 +65,23 @@ architecture and ROADMAP.md for the plan.
   use these, theme-aware, with no CDN.
 
 ---
+
+## Desktop app
+
+- The bridge contract is fixed: `API.run(payload)` returns
+  `{"success": True, "files": [{"path","label"}], "folder": str, "summary": {...}}`
+  or `{"success": False, "error": str, "files": []}`. It catches everything;
+  a stack trace must never reach the window.
+- `ui.html` is self-contained: no CDN, no external fonts or scripts.
+- Resolve `ui.html` via `ui_html_path()`, which reads from the **package
+  module**. In a PyInstaller onefile bundle the entry script's `__file__`
+  flattens to the bundle root, so resolving from `main.py` finds nothing and
+  the app crashes on launch.
+- Version lives in three places on a release and they must match:
+  `spreadsheet_cleaner/__init__.py`, `pyproject.toml`, and `installer.iss`.
+- Verifying a `--noconsole` build: "the process is still alive" is a FALSE
+  pass, because a startup crash shows a blocking dialog. Count
+  `msedgewebview2.exe` child processes instead.
 
 ## Error handling
 

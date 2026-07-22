@@ -104,11 +104,16 @@ and code, or a BI visualization tool. It is a lightweight, offline workbench.
 - **The `reconcile` command** - row counts, key coverage both directions, and
   control totals between source and cleaned/load-ready file.
 
-### Next: surfaces and adoption
-- **Desktop app** (Zinc & Sky, offline) - open a file, profile, clean, validate,
-  and export the report, with a Windows installer.
-- **RecordForge round-trip** - clean the messy data RecordForge generates, and a
-  gradable data-cleaning drill for the Analyst Prep Kit.
+**Phase E - Desktop app and adoption (v0.4.0)**
+- **Desktop app** (Zinc & Sky, offline, no CDN) - a three-step window: choose a
+  file and sheet, tick what to run (profile, clean, validate against a target
+  schema), and get the reports with a one-click Open. Drafts a starter schema
+  for you if you do not have one yet.
+- **Windows installer** built with PyInstaller and Inno Setup, plus an opt-in
+  Check for Updates that runs only when you click it.
+- **RecordForge round-trip** - generate a dataset with known injected problems
+  in RecordForge, prove Spreadsheet Cleaner detects each one, and use the pair
+  as a gradable data-cleaning drill. See `examples/recordforge_roundtrip.md`.
 
 ### Later, if the need is there
 - Large-file and streaming mode; connectors to load targets; macOS/Linux desktop

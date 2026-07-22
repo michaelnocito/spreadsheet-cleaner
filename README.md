@@ -29,6 +29,24 @@ DMBOK2), so the report reads as a standard scorecard, not ad-hoc warnings.
 
 ---
 
+## Desktop app
+
+Prefer a window to a terminal? Download the Windows installer from the
+[Releases page](https://github.com/michaelnocito/spreadsheet-cleaner/releases/latest),
+or run it from a clone:
+
+```bash
+pip install -e ".[gui]"
+python -m spreadsheet_cleaner
+```
+
+Three steps: choose a file (and sheet), tick what to run, get your reports. It
+drafts a starter target schema for you if you do not have one, and it is the
+same engine the CLI uses. Fully offline; the only network request is the
+Check for Updates button, which runs only when you click it.
+
+---
+
 ## Install
 
 Install from source (a PyPI package is coming):
@@ -222,8 +240,12 @@ workbench. Cleaning, target-schema validation, and a desktop app are on the
 
 [RecordForge](https://michaelnocito.github.io/recordforge/) generates realistic,
 deliberately-messy test data; Spreadsheet Cleaner is the inverse - it detects and
-reports exactly the problems RecordForge can inject. Generate a messy dataset in
-RecordForge, then run it through Spreadsheet Cleaner to see the audit catch them.
+reports exactly the problems RecordForge can inject. Because RecordForge is
+seeded, the loop is reproducible, which also makes it a data-cleaning drill with
+a known answer key.
+
+See [`examples/recordforge_roundtrip.md`](examples/recordforge_roundtrip.md) for
+the full round-trip, including which injected problem maps to which dimension.
 
 ---
 

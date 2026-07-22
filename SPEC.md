@@ -17,6 +17,13 @@ steps, a change log, recipe files (YAML/JSON), a smart default recipe built from
 the profile, non-destructive output, a before/after cleaning report, and the
 `clean` CLI command / `clean()` API.
 
+**Phase E (shipped, v0.4.0):** the desktop app - a pywebview bridge (`ui/app.py`)
+over the same engine, a three-step Zinc & Sky wizard (`ui/ui.html`, no CDN),
+starter-schema drafting, an opt-in update check, and a PyInstaller + Inno Setup
+Windows installer. The bridge contract is
+`run(payload) -> {"success", "files", "folder", "summary"}` or
+`{"success": False, "error", "files": []}`; it never raises into the window.
+
 **Phase D (shipped, v0.3.0):** migration validation - target schema files
 (YAML/JSON) describing the destination's contract, the rule engine (required /
 type / length / allowed / pattern / range / unique / lookup, each mapped to a
@@ -71,14 +78,16 @@ spreadsheet_cleaner/
     ├── markdown.py        # Markdown quality report
     ├── json_report.py     # machine-readable JSON report
     ├── clean_report.py    # before/after + change-log report (HTML/Markdown)
-    └── validate_report.py # PASS/FAIL "will it load?" report (HTML/Markdown)
+│   └── validate_report.py # PASS/FAIL "will it load?" report (HTML/Markdown)
+└── ui/
+    ├── __init__.py
+    ├── app.py             # pywebview bridge: API.run/draft_schema/pickers/update
+    └── ui.html            # 3-step desktop wizard (Zinc & Sky, no CDN)
 ```
 
-Planned (later phases, not yet built):
-
-```
-└── ui/                    # Phase E: app.py (pywebview bridge) + ui.html
-```
+Repo root also holds the desktop build files: `main.py` (frozen entry script),
+`SpreadsheetCleaner.spec` (PyInstaller), `installer.iss` (Inno Setup), and
+`INSTALL.md`. See INSTALL.md for the build and the verification procedure.
 
 ---
 
