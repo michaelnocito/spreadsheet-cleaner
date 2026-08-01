@@ -110,10 +110,22 @@ def clean_number(value: str) -> str:
 # Specific types worth flagging violations for, in priority order. Boolean is
 # first so flag columns don't get swallowed by "integer"; categorical/text are
 # resolved separately (no violations flagged for them).
+def _is_decimal_value(value: str) -> bool:
+    """A whole number is a valid decimal.
+
+    ``is_decimal`` needs a literal point, which is right when you are asking
+    "does this have a fractional part". It is wrong as a validity test: a
+    price column holding 9.99 and 10 would report 10 as invalid. Integer sits
+    above decimal in this list and ties go to the first match, so a column of
+    whole numbers is still typed integer.
+    """
+    return is_decimal(value) or is_integer(value)
+
+
 _TYPE_TESTS: list[tuple[str, callable]] = [
     ("boolean", is_boolean),
     ("integer", is_integer),
-    ("decimal", is_decimal),
+    ("decimal", _is_decimal_value),
     ("date", is_date),
     ("email", is_email),
     ("phone", is_phone),
