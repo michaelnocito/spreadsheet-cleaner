@@ -269,11 +269,9 @@ Found a bug or have an idea? Open an issue or a pull request. See
 [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 If this saved you time, a [⭐ star](https://github.com/michaelnocito/spreadsheet-cleaner)
-helps others find it. A coffee is always appreciated but never expected.
+helps others find it.
 
-<a href="https://buymeacoffee.com/michaelnocito" target="_blank">
-  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50">
-</a>
+Always free. Help keep the lights on: [tip the author on Gumroad](https://michaelnocito.gumroad.com/) if it helped.
 
 ---
 
