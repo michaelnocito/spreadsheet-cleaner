@@ -259,7 +259,7 @@ of this tool.
 free browser suite for breaking into data analytics: SQL, Excel, Python, Tableau,
 and Statistics.
 
-**[LinkedIn](https://www.linkedin.com/in/michaelnocito)** - data analyst · 8 years enterprise implementation
+**[LinkedIn](https://www.linkedin.com/in/michaelnocito)** - implementation analyst · 8 years enterprise implementation
 
 ---
 
